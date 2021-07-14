@@ -1,10 +1,13 @@
 import sys
-from PyQt5 import QtWidgets, QtSql, QtCore
+import time
+
+from PyQt5 import QtWidgets, QtCore , QtSql
+
 
 
 def createDB():
     db = QtSql.QSqlDatabase.addDatabase('QSQLITE')
-    db.setDatabaseName('phonebook.db')
+    db.setDatabaseName('sports.db')
     if not db.open():
         QtWidgets.QMessageBox.critical(None, QtWidgets.qApp.tr("Cannot open database"),
                                        QtWidgets.qApp.tr("Unable to establish a database connection.\n"
@@ -48,6 +51,21 @@ def findrow(i):
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
+    win_root = QtWidgets.QDialog()
+    win_root.setWindowTitle("Главное окно")
+    win_root.resize(900, 900)
+    layout = QtWidgets.QVBoxLayout()
+    win_root.setLayout(layout)
+    edit = QtWidgets.QLineEdit("Введите имя: ")
+    layout.addWidget(edit)
+    button = QtWidgets.QPushButton("Закрыть окно")
+    #button.setFixedSize(150, 30)
+    #button.move(75,20)
+    layout.addWidget(button)
+    button.clicked.connect(win_root.close)
+
+    win_root.show()
+
     createDB()
     model = QtSql.QSqlTableModel()
     delrow=-1
@@ -55,6 +73,7 @@ if __name__ == '__main__':
     view1 = createView("Table Model (View 1)", model)
     view1.clicked.connect(findrow)
     dlg = QtWidgets.QDialog()
+    dlg.resize(700, 800)
     layout = QtWidgets.QVBoxLayout()
     layout.addWidget(view1)
     button = QtWidgets.QPushButton("Add a row")
@@ -65,5 +84,11 @@ if __name__ == '__main__':
     layout.addWidget(btn1)
     dlg.setLayout(layout)
     dlg.setWindowTitle("Database Demo")
+    button = QtWidgets.QPushButton("Закрыть окно", dlg)
+
+    layout.addWidget(button)
+    button.clicked.connect(dlg.close)
+
     dlg.show()
+
     sys.exit(app.exec_())

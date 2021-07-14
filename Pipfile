@@ -7,6 +7,11 @@ name = "pypi"
 pyqt5 = "*"
 mariadb = "*"
 tk = "*"
+pyqt5-tools = "*"
+pyqt6 = "*"
+qstring = "*"
+pyqt5-stubs = "==5.15.2.0"
+psycopg2 = "*"
 
 [dev-packages]
 
