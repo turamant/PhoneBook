@@ -14,16 +14,15 @@ except psycopg2.Error:
     sys.exit(1)
 cursor = conn.cursor()
 try:
-    cursor.execute(""" CREATE TABLE PHONEBOOK
+    cursor.execute(""" CREATE TABLE USERS
     (id int primary key not null,
     firstName varchar(30) not null,
     lastName  varchar(50) not null,
-    telNumber varchar(12),
-    address varchar(50));
+    password varchar(12));
     """)
     print("Table create!")
 except psycopg2.OperationalError:
-    print("Table 'products' already exists")
+    print("Table 'users' already exists")
     sys.exit(1)
 
 cursor.close()

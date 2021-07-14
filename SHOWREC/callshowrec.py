@@ -1,18 +1,17 @@
 import sys
 from showrec import *
-from PyQt5 import QtSql, QtGui, QtWidgets
-
-
+from PyQt5 import QtSql, QtWidgets
 
 def createConnection():
     db = QtSql.QSqlDatabase.addDatabase('QPSQL')
     db.setHostName('127.0.0.1')
     db.setDatabaseName('shopdb')
+    print(db.databaseName())
     db.setUserName('user1')
     db.setPassword('password1')
-    #db.setPort(5432)
+    db.setPort(5432)
     db.open()
-    print(db.lastError().text())
+    print("Нет ошибок!", db.lastError().text())
     print('Basa подключена')
     return True
 
@@ -22,7 +21,7 @@ class MyForm(QtWidgets.QDialog):
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
         self.model = QtSql.QSqlTableModel(self)
-        self.model.setTable("Products2")
+        self.model.setTable("products2")
         self.model.setEditStrategy(QtSql.QSqlTableModel.OnManualSubmit)
         self.model.select()
         self.ui.tableView.setModel(self.model)
