@@ -2,7 +2,7 @@
 from PyQt5 import QtCore, QtWidgets
 
 try:
-    _fromUtf8 = QtCore.QString.fromUtf8
+    _fromUtf8 = QtWidgets.QString.fromUtf8
 except AttributeError:
     _fromUtf8 = lambda s: s
 
@@ -13,8 +13,9 @@ class Ui_Dialog(object):
         self.tableView = QtWidgets.QTableView(Dialog)
         self.tableView.setGeometry(QtCore.QRect(70, 50, 650, 600))
         self.tableView.setObjectName(_fromUtf8("tableView"))
-        #self.retranslateUi(Dialog)
+        self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
-def retranslateUi(self, Dialog):
-    Dialog.setWindowTitle(QtWidgets.QApplication.translate("Dialog", "Dialog", None, QtWidgets.QApplication.UnicodeUTF8))
+    def retranslateUi(self, Dialog):
+        Dialog.setWindowTitle(
+            QtWidgets.QApplication.translate("Dialog", "Dialog", None))

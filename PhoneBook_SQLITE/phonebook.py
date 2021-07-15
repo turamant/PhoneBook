@@ -84,10 +84,11 @@ if __name__ == '__main__':
     layout.addWidget(btn1)
     dlg.setLayout(layout)
     dlg.setWindowTitle("Database Demo")
-    button = QtWidgets.QPushButton("Закрыть окно", dlg)
 
+    button = QtWidgets.QPushButton("Закрыть окно", dlg)
     layout.addWidget(button)
     button.clicked.connect(dlg.close)
+
 
     dlg.show()
 
