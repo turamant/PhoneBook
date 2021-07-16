@@ -2,7 +2,7 @@ import sys
 from DispProducts import *
 from PyQt5 import QtSql, QtWidgets, QtCore
 from PyQt5.QtWidgets import QMainWindow, QAction, qApp, QGroupBox, QHBoxLayout, QPushButton, QVBoxLayout, QDialog, \
-    QTableView, QDialogButtonBox, QMessageBox
+    QTableView, QDialogButtonBox, QMessageBox, QTabWidget
 from PyQt5.QtCore import QObject, pyqtSlot, Qt
 
 
@@ -18,19 +18,7 @@ def createConnection():
     print("База подключена!")
     return True
 
-class Example(QMainWindow):
-    def __init__(self):
-        super(Example, self).__init__()
-        exitAction = QAction('Exit', self)
-        exitAction.triggered.connect(self.this_call)
-        self.toolbar = self.addToolBar('Exit')
-        self.toolbar.addAction(exitAction)
-        self.show()
-
-    def this_call(self):
-        print('bye bye')
-        app.quit()
-
+class
 
 class MyForm(QtWidgets.QDialog):
     recno = 0
@@ -52,6 +40,7 @@ class MyForm(QtWidgets.QDialog):
         windowLayout = QVBoxLayout()
         windowLayout.addWidget(self.horizontalGroupBox)
         self.setLayout(windowLayout)
+
 
     def createHorizontalLayout(self):
         self.horizontalGroupBox = QGroupBox("What is your favorite color?")

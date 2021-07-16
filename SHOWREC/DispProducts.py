@@ -1,4 +1,3 @@
-# Form implementation generated from reading ui file 'DispProducts.ui'
 from PyQt5 import QtCore, QtGui, QtWidgets
 # Form implementation generated from reading ui file 'DispProducts.ui'
 
@@ -10,17 +9,17 @@ except AttributeError:
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName(_fromUtf8("Dialog"))
-        Dialog.resize(420, 194)
+        Dialog.resize(600, 400)
         self.label = QtWidgets.QLabel(Dialog)
-        self.label.setGeometry(QtCore.QRect(140, 10, 131, 16))
+        self.label.setGeometry(QtCore.QRect(140, 10, 101, 16))
         font = QtGui.QFont()
-        font.setPointSize(11)
+        font.setPointSize(18)
         font.setWeight(75)
         font.setBold(True)
         self.label.setFont(font)
         self.label.setObjectName(_fromUtf8("label"))
         self.label_2 = QtWidgets.QLabel(Dialog)
-        self.label_2.setGeometry(QtCore.QRect(30, 40, 51, 16))
+        self.label_2.setGeometry(QtCore.QRect(10, 10, 151, 161))
         self.label_2.setObjectName(_fromUtf8("label_2"))
         self.label_3 = QtWidgets.QLabel(Dialog)
         self.label_3.setGeometry(QtCore.QRect(190, 40, 71, 16))
