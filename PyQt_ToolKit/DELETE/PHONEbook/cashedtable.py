@@ -5,7 +5,6 @@ from PyQt5.QtSql import QSqlTableModel
 
 import connection
 
-
 class TableEditor(QDialog):
     def __init__(self, tableName, parent=None):
         super(TableEditor, self).__init__(parent)
@@ -42,6 +41,7 @@ class TableEditor(QDialog):
         self.setLayout(mainLayout)
 
         self.setWindowTitle("Cached Table")
+        self.setGeometry(500, 100, 600, 800)
 
     def submit(self):
         self.model.database().transaction()

@@ -1,4 +1,9 @@
 import sys
+
+from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtWidgets import QDialogButtonBox, QVBoxLayout, QMenuBar, QMenu, QGroupBox, QHBoxLayout, QPushButton
+
+from PyQt_ToolKit.DELETE.xxx import Dialog
 from showrec import *
 from PyQt5 import QtSql, QtWidgets
 
@@ -16,6 +21,8 @@ def createConnection():
     return True
 
 class MyForm(QtWidgets.QDialog):
+    #NumGridRows = 3
+    #NumButtons = 2
     def __init__(self, parent=None):
         QtWidgets.QWidget.__init__(self, parent)
         self.ui = Ui_Dialog()
@@ -25,6 +32,46 @@ class MyForm(QtWidgets.QDialog):
         self.model.setEditStrategy(QtSql.QSqlTableModel.OnManualSubmit)
         self.model.select()
         self.ui.tableView.setModel(self.model)
+        self.createMenu()
+        self.createHorizontalGroupBox()
+
+        buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+
+        buttonBox.accepted.connect(self.accept)
+        buttonBox.rejected.connect(self.reject)
+
+        mainLayout = QVBoxLayout()
+        mainLayout.setMenuBar(self.menuBar)
+        mainLayout.addWidget(self.horizontalGroupBox)
+        self.setLayout(mainLayout)
+
+        self.setWindowTitle("Basic Layouts")
+
+    def createMenu(self):
+        self.menuBar = QMenuBar()
+
+        self.fileMenu = QMenu("&File", self)
+        self.exitAction = self.fileMenu.addAction("E&xit")
+        self.menuBar.addMenu(self.fileMenu)
+
+        self.exitAction.triggered.connect(self.accept)
+
+    def createHorizontalGroupBox(self):
+        self.horizontalGroupBox = QGroupBox("123dvdffd")
+        layout = QHBoxLayout()
+
+        for i in range(Dialog.NumButtons):
+            button = QPushButton("Button %d" % (i + 1))
+            button.clicked.connect(self.on_click)
+            layout.addWidget(button)
+
+        self.horizontalGroupBox.setLayout(layout)
+
+
+    @pyqtSlot()
+    def on_click(self):
+        print('PyQt button click')
+
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)

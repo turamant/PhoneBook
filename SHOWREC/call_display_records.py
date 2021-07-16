@@ -1,10 +1,8 @@
 import sys
 from DispProducts import *
 from PyQt5 import QtSql, QtWidgets, QtCore
-from PyQt5.QtWidgets import QMainWindow, QAction, qApp
-from PyQt5.QtCore import QObject
-
-
+from PyQt5.QtWidgets import QMainWindow, QAction, qApp, QGroupBox, QHBoxLayout, QPushButton, QVBoxLayout
+from PyQt5.QtCore import QObject, pyqtSlot
 
 
 def createConnection():
@@ -46,24 +44,44 @@ class MyForm(QtWidgets.QDialog):
         self.ui.prodname.setText(self.record.value("productname"))
         self.ui.qty.setText(str(self.record.value("quantity")))
         self.ui.price.setText(str(self.record.value("price")))
-        exitAction = QAction('exit', self)
-        exitAction.triggered.connect(self.this_call)
 
+        self.createHorizontalLayout()
 
-        #QtCore.QObject.connectSlotsByName(self.ui.FirstButton,
-        #                                  QtCore.SIGNAL('clicked()'),
-        #                                  self.dispFirst)
-        #QtCore.QObject.connect(self.ui.PreviousButton, QtCore.SIGNAL('clicked()'),
-        #                       self.dispPrevious)
-        #QtCore.QObject.connect(self.ui.LastButton, QtCore.SIGNAL('clicked()'),
-        #                       self.dispLast)
-        #QtCore.QObject.connect(self.ui.NextButton, QtCore.SIGNAL('clicked()'),
-        #                       self.dispNext)
+        windowLayout = QVBoxLayout()
+        windowLayout.addWidget(self.horizontalGroupBox)
+        self.setLayout(windowLayout)
+
+    def createHorizontalLayout(self):
+        self.horizontalGroupBox = QGroupBox("What is your favorite color?")
+        layout = QHBoxLayout()
+
+        buttonFirst = QPushButton('First', self)
+        buttonFirst.clicked.connect(self.dispFirst)
+        layout.addWidget(buttonFirst)
+
+        buttonNext = QPushButton('Next', self)
+        buttonNext.clicked.connect(self.dispNext)
+        layout.addWidget(buttonNext)
+
+        buttonPrevious = QPushButton('Previous', self)
+        buttonPrevious.clicked.connect(self.dispPrevious)
+        layout.addWidget(buttonPrevious)
+
+        buttonLast = QPushButton('Last', self)
+        buttonLast.clicked.connect(self.dispLast)
+        layout.addWidget(buttonLast)
+
+        self.horizontalGroupBox.setLayout(layout)
+
+    @pyqtSlot()
+    def on_click(self):
+        print('PyQt5 button click')
 
     def this_call(self):
         print('bye bye')
         app.quit()
 
+    @pyqtSlot()
     def dispFirst(self):
         MyForm.recno = 0
         self.record = self.model.record(MyForm.recno)
@@ -72,6 +90,7 @@ class MyForm(QtWidgets.QDialog):
         self.ui.qty.setText(str(self.record.value("quantity")))
         self.ui.price.setText(str(self.record.value("price")))
 
+    @pyqtSlot()
     def dispPrevious(self):
         MyForm.recno -= 1
         if MyForm.recno < 0:
@@ -82,6 +101,7 @@ class MyForm(QtWidgets.QDialog):
         self.ui.qty.setText(str(self.record.value("quantity")))
         self.ui.price.setText(str(self.record.value("price")))
 
+    @pyqtSlot()
     def dispLast(self):
         MyForm.recno = self.model.rowCount()-1
         self.record = self.model.record(MyForm.recno)
@@ -90,6 +110,7 @@ class MyForm(QtWidgets.QDialog):
         self.ui.qty.setText(str(self.record.value("quantity")))
         self.ui.price.setText(str(self.record.value("price")))
 
+    @pyqtSlot()
     def dispNext(self):
         MyForm.recno += 1
         if MyForm.recno > self.model.rowCount()-1:
