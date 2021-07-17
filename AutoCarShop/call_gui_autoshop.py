@@ -1,6 +1,6 @@
 import sys
 import psycopg2
-from PyQt5.QtWidgets import QTableWidget, QApplication, QMainWindow, QTableWidget
+from PyQt5.QtWidgets import QTableWidget, QApplication, QMainWindow, QTableWidget, QLabel
 from PyQt5.QtWidgets import QTableWidgetItem, QWidget, QPushButton, QLineEdit
 from PyQt5 import QtGui
 
@@ -13,16 +13,9 @@ class MyWidget(QWidget):
         self.con()
 
 # параметры окна
-        self.setGeometry(100, 100, 800, 850)
+        self.setGeometry(100, 100, 810, 800)
         self.setWindowTitle('Журнал автомарок')
         self.tb = Tb(self)
-
-
-# кнопка "обновить"
-        self.btn = QPushButton('Обновить', self)
-        self.btn.resize(150, 40)
-        self.btn.move(620, 10)
-        self.btn.clicked.connect(self.upd)
 
 # здесь идентификатор
         self.idp = QLineEdit(self)
@@ -57,10 +50,16 @@ class MyWidget(QWidget):
         self.btn.move(620, 310)
         self.btn.clicked.connect(self.dels)
 
+# кнопка "обновить"
+        self.btn = QPushButton('Обновить', self)
+        self.btn.resize(150, 40)
+        self.btn.move(620, 360)
+        self.btn.clicked.connect(self.upd)
+
 # кнопка выход из
         self.btn = QPushButton("Выход", self)
         self.btn.resize(150, 40)
-        self.btn.move(620, 360)
+        self.btn.move(620, 410)
         self.btn.clicked.connect(self.squit)
 
 # соединение с базой данных
@@ -134,7 +133,7 @@ class Tb(QTableWidget):
         self.clear()
         self.setRowCount(0)
         self.setHorizontalHeaderLabels(['id', 'Марка', 'Количество', 'Цена'])  # заголовки столцов
-        self.wg.cur.execute("select * from products2 order by productname")
+        self.wg.cur.execute("select * from products2 order by id")
         rows = self.wg.cur.fetchall()
         i = 0
         for elem in rows:
