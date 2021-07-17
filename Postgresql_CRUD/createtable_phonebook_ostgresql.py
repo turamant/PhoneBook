@@ -2,7 +2,7 @@ import sys
 import psycopg2
 
 try:
-    conn = psycopg2.connect(database="shopdb",
+    conn = psycopg2.connect(database="studentdb",
                             user="user1",
                             password="password1",
                             host="127.0.0.1",
@@ -14,12 +14,10 @@ except psycopg2.Error:
     sys.exit(1)
 cursor = conn.cursor()
 try:
-    cursor.execute(""" CREATE TABLE PHONEBOOK
+    cursor.execute(""" CREATE TABLE STUDENT
     (id int primary key not null,
-    firstName varchar(30) not null,
-    lastName  varchar(50) not null,
-    telNumber varchar(12),
-    address varchar(50));
+    family varchar(30) not null,
+    rank  varchar(50) not null);
     """)
     print("Table create!")
 except psycopg2.OperationalError:

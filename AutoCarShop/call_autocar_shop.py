@@ -1,5 +1,6 @@
 from PyQt5 import QtSql
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, pyqtSlot
+from PyQt5.QtSql import QSqlQuery
 from PyQt5.QtWidgets import *
 import sys
 
@@ -16,10 +17,10 @@ def createConnection():
     print("База подключена!")
     return True
 
-class Dialog(QWidget):
+class Dialog(QDialog):
     def __init__(self):
         super(Dialog, self).__init__()
-        self.title = 'Телефонный справочник'
+        self.title = 'Окно авторизации'
         self.left = 10
         self.top = 10
         self.width = 320
@@ -61,12 +62,22 @@ class TableEditor(QDialog):
         self.model.select()
 
         self.model.setHeaderData(0, Qt.Horizontal, "ID")
-        self.model.setHeaderData(1, Qt.Horizontal, "ProductName")
+        self.model.setHeaderData(1, Qt.Horizontal, "Name")
         self.model.setHeaderData(2, Qt.Horizontal, "Quantity")
         self.model.setHeaderData(3, Qt.Horizontal, "Price")
 
         self.table_view = QTableView()
         self.table_view.setModel(self.model)
+        self.table_view.setShowGrid(True)
+        self.table_view.setMinimumSize(400, 400)
+        vh = self.table_view.verticalHeader()
+        vh.setVisible(True)
+        hh = self.table_view.horizontalHeader()
+        hh.setStretchLastSection(True)
+        #self.table_view.setWordWrap(True)
+        #self.table_view.verticalHeader().hide()
+
+
 
         submitButton = QPushButton("Сохранить")
         #submitButton.setDefault(True)
@@ -76,7 +87,7 @@ class TableEditor(QDialog):
         addRowButton = QPushButton("Добавить")
         removeRowButton = QPushButton("Удалить")
         clearContentsButton = QPushButton("Очистить БД")
-        sortButton = QPushButton("Сортировать")
+        sortButton = QPushButton("Сортировка Вкл.")
         #searchBarButton = QPushButton("Искать")
         #copyRowButton = QPushButton("Корировать")
 
@@ -110,13 +121,16 @@ class TableEditor(QDialog):
         self.setGeometry(500, 100, 900, 700)
         self.show()
 
-
+    @pyqtSlot()
     def _addRow(self):
         rowCount = self.model.rowCount()
         self.model.insertRows(rowCount, 1)
 
     def _sortRow(self):
-        pass
+        self.table_view.setSortingEnabled(True)
+
+
+
 
     def _removeRow(self):
         if self.model.rowCount() > 0:
@@ -165,7 +179,8 @@ if __name__=='__main__':
     app.setStyleSheet('QPushButton{font-size: 20px; width: 200px; height: 50px;}')
     if not createConnection():
         sys.exit(1)
-    screen = Dialog()
     editor = TableEditor('products2')
+    screen = Dialog()
+
 
     sys.exit(app.exec_())
