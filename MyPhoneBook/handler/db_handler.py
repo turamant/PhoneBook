@@ -7,6 +7,7 @@ def login(login, passw, signal):
     #Проверяем есть ли такой пользователь
     cur.execute(f'SELECT * FROM users WHERE name="{login}";')
     value = cur.fetchall()
+    print(value)
 
     if value != [] and value[0][2] == passw: # кортеж [(id, login, password),]
         signal.emit('Успешно авторизован! Добро пожаловать!')

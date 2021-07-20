@@ -1,10 +1,8 @@
 import sys
 
-
-from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QGridLayout, QLabel, QDialogButtonBox
 
-from check_db import *
+from Sander.check_db import *
 from des import *
 
 
