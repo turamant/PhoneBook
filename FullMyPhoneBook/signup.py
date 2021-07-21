@@ -16,58 +16,42 @@ class Ui_SignUpDialog(object):
         SignUpDialog.setObjectName("SignUpDialog")
         SignUpDialog.resize(1175, 797)
         self.widget = QtWidgets.QWidget(SignUpDialog)
-        self.widget.setGeometry(QtCore.QRect(0, 0, 1221, 801))
-        self.widget.setStyleSheet("QWidget#widget{\n"
-"background-color: qlineargradient(spread:pad, x1:0.035, y1:0.0511364, x2:0.951327, y2:0.915, stop:0 rgba(0, 0, 255, 255), stop:1 rgba(255, 255, 255, 255));}")
+        self.widget.setGeometry(QtCore.QRect(-10, 0, 1221, 801))
+        self.widget.setStyleSheet("background-color: rgb(232, 232, 232);")
         self.widget.setObjectName("widget")
-        self.signuplabel = QtWidgets.QLabel(self.widget)
-        self.signuplabel.setGeometry(QtCore.QRect(470, 100, 211, 131))
-        self.signuplabel.setStyleSheet("\n"
-"font: 28pt \"DejaVu Math TeX Gyre\";\n"
-"color: rgb(170, 255, 127);")
-        self.signuplabel.setObjectName("signuplabel")
-        self.label_2 = QtWidgets.QLabel(self.widget)
-        self.label_2.setGeometry(QtCore.QRect(240, 220, 751, 71))
-        self.label_2.setStyleSheet("color: rgb(255, 255, 127);\n"
-"font: 24pt \"Cantarell\";")
-        self.label_2.setObjectName("label_2")
-        self.signUpButton = QtWidgets.QPushButton(self.widget)
-        self.signUpButton.setGeometry(QtCore.QRect(440, 670, 271, 51))
-        self.signUpButton.setStyleSheet("border-radius:20px;\n"
-"font: 18pt \"Cantarell\";\n"
-"background-color: rgb(124, 255, 235);")
-        self.signUpButton.setObjectName("signUpButton")
-
-        self.emailField = QtWidgets.QLineEdit(self.widget)
-        self.emailField.setGeometry(QtCore.QRect(380, 350, 341, 41))
-        self.emailField.setObjectName("emailField")
-
-        self.passwordField = QtWidgets.QLineEdit(self.widget)
-        self.passwordField.setGeometry(QtCore.QRect(380, 450, 341, 41))
-        self.passwordField.setObjectName("passwordField")
-
-        self.userNameLabel = QtWidgets.QLabel(self.widget)
-        self.userNameLabel.setGeometry(QtCore.QRect(380, 320, 141, 20))
-        self.userNameLabel.setStyleSheet("font: 14pt \"Cantarell\";")
-        self.userNameLabel.setObjectName("userNameLabel")
-        self.passwordLabel = QtWidgets.QLabel(self.widget)
-        self.passwordLabel.setGeometry(QtCore.QRect(380, 420, 141, 20))
-        self.passwordLabel.setStyleSheet("font: 14pt \"Cantarell\";")
-        self.passwordLabel.setObjectName("passwordLabel")
+        self.signupLabel = QtWidgets.QLabel(self.widget)
+        self.signupLabel.setGeometry(QtCore.QRect(440, 50, 331, 131))
+        self.signupLabel.setStyleSheet("font: 28pt \"DejaVu Math TeX Gyre\";\n"
+"color: black;")
+        self.signupLabel.setObjectName("signupLabel")
         self.errorLabel = QtWidgets.QLabel(self.widget)
-        self.errorLabel.setGeometry(QtCore.QRect(380, 620, 341, 21))
-        self.errorLabel.setStyleSheet("font: 14pt \"Cantarell\";\n"
-"color:rgb(255, 0, 0)")
+        self.errorLabel.setGeometry(QtCore.QRect(380, 460, 451, 71))
+        self.errorLabel.setStyleSheet("color: red;\n"
+"font: 18pt \"Cantarell\";\n"
+"")
         self.errorLabel.setText("")
         self.errorLabel.setObjectName("errorLabel")
-        self.confirmPasswordLabel = QtWidgets.QLabel(self.widget)
-        self.confirmPasswordLabel.setGeometry(QtCore.QRect(380, 500, 201, 20))
-        self.confirmPasswordLabel.setStyleSheet("font: 14pt \"Cantarell\";")
-        self.confirmPasswordLabel.setObjectName("confirmPasswordLabel")
-
+        self.signUpPushButton = QtWidgets.QPushButton(self.widget)
+        self.signUpPushButton.setGeometry(QtCore.QRect(370, 570, 211, 51))
+        self.signUpPushButton.setStyleSheet("border-radius:20px;\n"
+"font: 18pt \"Cantarell\";\n"
+"background-color: green;")
+        self.signUpPushButton.setObjectName("signUpPushButton")
+        self.nameuserField = QtWidgets.QLineEdit(self.widget)
+        self.nameuserField.setGeometry(QtCore.QRect(370, 200, 461, 71))
+        self.nameuserField.setObjectName("nameuserField")
+        self.passwordField = QtWidgets.QLineEdit(self.widget)
+        self.passwordField.setGeometry(QtCore.QRect(370, 290, 461, 71))
+        self.passwordField.setObjectName("passwordField")
         self.confirmField = QtWidgets.QLineEdit(self.widget)
-        self.confirmField.setGeometry(QtCore.QRect(380, 530, 341, 41))
+        self.confirmField.setGeometry(QtCore.QRect(370, 380, 461, 71))
         self.confirmField.setObjectName("confirmField")
+        self.cancelPushButton = QtWidgets.QPushButton(self.widget)
+        self.cancelPushButton.setGeometry(QtCore.QRect(630, 570, 191, 51))
+        self.cancelPushButton.setStyleSheet("border-radius:20px;\n"
+"font: 18pt \"Cantarell\";\n"
+"background-color: red;")
+        self.cancelPushButton.setObjectName("cancelPushButton")
 
         self.retranslateUi(SignUpDialog)
         QtCore.QMetaObject.connectSlotsByName(SignUpDialog)
@@ -75,9 +59,9 @@ class Ui_SignUpDialog(object):
     def retranslateUi(self, SignUpDialog):
         _translate = QtCore.QCoreApplication.translate
         SignUpDialog.setWindowTitle(_translate("SignUpDialog", "Dialog"))
-        self.signuplabel.setText(_translate("SignUpDialog", "Sign Up"))
-        self.label_2.setText(_translate("SignUpDialog", "зарегистрируйте новую учетную запись"))
-        self.signUpButton.setText(_translate("SignUpDialog", "Sign Up"))
-        self.userNameLabel.setText(_translate("SignUpDialog", "UserName"))
-        self.passwordLabel.setText(_translate("SignUpDialog", "Password"))
-        self.confirmPasswordLabel.setText(_translate("SignUpDialog", "Confirm Password"))
+        self.signupLabel.setText(_translate("SignUpDialog", "Регистрация"))
+        self.signUpPushButton.setText(_translate("SignUpDialog", "Ok"))
+        self.nameuserField.setPlaceholderText(_translate("SignUpDialog", "   Имя пользователя"))
+        self.passwordField.setPlaceholderText(_translate("SignUpDialog", "   Пароль"))
+        self.confirmField.setPlaceholderText(_translate("SignUpDialog", "   Повторите пароль"))
+        self.cancelPushButton.setText(_translate("SignUpDialog", "Отмена"))

@@ -14,15 +14,42 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_TableDialog(object):
     def setupUi(self, TableDialog):
         TableDialog.setObjectName("TableDialog")
-        TableDialog.resize(872, 732)
-        self.pushButtonDisplayRows = QtWidgets.QPushButton(TableDialog)
-        self.pushButtonDisplayRows.setGeometry(QtCore.QRect(280, 120, 201, 41))
-        self.pushButtonDisplayRows.setObjectName("pushButtonDisplayRows")
+        TableDialog.resize(1172, 792)
+        self.displayRowspushButton = QtWidgets.QPushButton(TableDialog)
+        self.displayRowspushButton.setGeometry(QtCore.QRect(490, 720, 311, 41))
+        self.displayRowspushButton.setStyleSheet("border-radius:20px;\n"
+"font: 18pt \"Cantarell\";\n"
+"background-color: green;")
+        self.displayRowspushButton.setObjectName("displayRowspushButton")
         self.tableWidget = QtWidgets.QTableWidget(TableDialog)
-        self.tableWidget.setGeometry(QtCore.QRect(70, 200, 741, 501))
+        self.tableWidget.setGeometry(QtCore.QRect(30, 80, 1111, 611))
         self.tableWidget.setRowCount(999999)
         self.tableWidget.setColumnCount(3)
         self.tableWidget.setObjectName("tableWidget")
+        self.HeadLabel = QtWidgets.QLabel(TableDialog)
+        self.HeadLabel.setGeometry(QtCore.QRect(780, 30, 121, 21))
+        self.HeadLabel.setStyleSheet("font: 14pt \"Cantarell\";")
+        self.HeadLabel.setObjectName("HeadLabel")
+        self.nameUserLabel = QtWidgets.QLabel(TableDialog)
+        self.nameUserLabel.setGeometry(QtCore.QRect(930, 30, 201, 21))
+        self.nameUserLabel.setStyleSheet("font: 14pt \"Cantarell\";\n"
+"color: blue;")
+        self.nameUserLabel.setText("")
+        self.nameUserLabel.setObjectName("nameUserLabel")
+        self.errorLabel = QtWidgets.QLabel(TableDialog)
+        self.errorLabel.setGeometry(QtCore.QRect(670, 630, 451, 71))
+        self.errorLabel.setStyleSheet("color: red;\n"
+"font: 18pt \"Cantarell\";\n"
+"")
+        self.errorLabel.setText("")
+        self.errorLabel.setObjectName("errorLabel")
+        self.errorLabel_2 = QtWidgets.QLabel(TableDialog)
+        self.errorLabel_2.setGeometry(QtCore.QRect(20, 10, 451, 71))
+        self.errorLabel_2.setStyleSheet("color: red;\n"
+"font: 18pt \"Cantarell\";\n"
+"")
+        self.errorLabel_2.setText("")
+        self.errorLabel_2.setObjectName("errorLabel_2")
 
         self.retranslateUi(TableDialog)
         QtCore.QMetaObject.connectSlotsByName(TableDialog)
@@ -30,4 +57,5 @@ class Ui_TableDialog(object):
     def retranslateUi(self, TableDialog):
         _translate = QtCore.QCoreApplication.translate
         TableDialog.setWindowTitle(_translate("TableDialog", "Dialog"))
-        self.pushButtonDisplayRows.setText(_translate("TableDialog", "Display Rows"))
+        self.displayRowspushButton.setText(_translate("TableDialog", "Показать все записи"))
+        self.HeadLabel.setText(_translate("TableDialog", "Зашли как"))

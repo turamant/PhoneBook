@@ -5,6 +5,8 @@ from PyQt5.QtWidgets import QDialog, QApplication
 from dialogfirst import Ui_DialogFirst
 from dialogsecond import Ui_DialogSecond
 
+
+
 class MainWindow(QDialog):
     def __init__(self):
         super().__init__()

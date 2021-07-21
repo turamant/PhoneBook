@@ -14,35 +14,69 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(1175, 797)
+        Dialog.resize(1176, 797)
         self.widget = QtWidgets.QWidget(Dialog)
-        self.widget.setGeometry(QtCore.QRect(-10, 0, 1211, 801))
-        self.widget.setStyleSheet("QWidget#widget{\n"
-"background-color: qlineargradient(spread:pad, x1:0.035, y1:0.0511364, x2:0.951327, y2:0.915, stop:0 rgba(0, 0, 255, 255), stop:1 rgba(255, 255, 255, 255));}")
+        self.widget.setGeometry(QtCore.QRect(0, 0, 1181, 801))
+        self.widget.setMinimumSize(QtCore.QSize(831, 731))
+        self.widget.setStyleSheet("background-color: rgb(232, 232, 232);")
         self.widget.setObjectName("widget")
-        self.label = QtWidgets.QLabel(self.widget)
-        self.label.setGeometry(QtCore.QRect(310, 120, 551, 131))
-        self.label.setStyleSheet("\n"
-"font: 28pt \"DejaVu Math TeX Gyre\";\n"
-"color: rgb(170, 255, 127);")
-        self.label.setObjectName("label")
-        self.label_2 = QtWidgets.QLabel(self.widget)
-        self.label_2.setGeometry(QtCore.QRect(240, 230, 731, 71))
-        self.label_2.setStyleSheet("color: rgb(255, 255, 127);\n"
-"font: 24pt \"Cantarell\";")
-        self.label_2.setObjectName("label_2")
-        self.loginDialog = QtWidgets.QPushButton(self.widget)
-        self.loginDialog.setGeometry(QtCore.QRect(420, 360, 271, 51))
-        self.loginDialog.setStyleSheet("border-radius:20px;\n"
+        self.labelWelcom = QtWidgets.QLabel(self.widget)
+        self.labelWelcom.setGeometry(QtCore.QRect(380, 60, 551, 131))
+        self.labelWelcom.setStyleSheet("font: 28pt \"DejaVu Math TeX Gyre\";\n"
+"color: black;")
+        self.labelWelcom.setObjectName("labelWelcom")
+        self.errorLabel = QtWidgets.QLabel(self.widget)
+        self.errorLabel.setGeometry(QtCore.QRect(380, 390, 461, 71))
+        self.errorLabel.setStyleSheet("color: red;\n"
+"font: 14pt \"Cantarell\";")
+        self.errorLabel.setText("")
+        self.errorLabel.setObjectName("errorLabel")
+        self.loginPushButton = QtWidgets.QPushButton(self.widget)
+        self.loginPushButton.setGeometry(QtCore.QRect(240, 480, 191, 51))
+        self.loginPushButton.setStyleSheet("border-radius:20px;\n"
 "font: 18pt \"Cantarell\";\n"
-"background-color: rgb(124, 255, 235);")
-        self.loginDialog.setObjectName("loginDialog")
-        self.signupButton = QtWidgets.QPushButton(self.widget)
-        self.signupButton.setGeometry(QtCore.QRect(420, 440, 271, 51))
-        self.signupButton.setStyleSheet("border-radius:20px;\n"
+"background-color: green;")
+        self.loginPushButton.setObjectName("loginPushButton")
+        self.signupPushButton = QtWidgets.QPushButton(self.widget)
+        self.signupPushButton.setGeometry(QtCore.QRect(490, 480, 211, 51))
+        self.signupPushButton.setStyleSheet("border-radius:20px;\n"
 "font: 18pt \"Cantarell\";\n"
-"background-color: rgb(124, 255, 235);")
-        self.signupButton.setObjectName("signupButton")
+"background-color: grey;")
+        self.signupPushButton.setObjectName("signupPushButton")
+        self.cancelPushButton = QtWidgets.QPushButton(self.widget)
+        self.cancelPushButton.setGeometry(QtCore.QRect(760, 480, 211, 51))
+        self.cancelPushButton.setStyleSheet("border-radius:20px;\n"
+"font: 18pt \"Cantarell\";\n"
+"background-color: red;")
+        self.cancelPushButton.setObjectName("cancelPushButton")
+        self.nameuserLineEdit = QtWidgets.QLineEdit(self.widget)
+        self.nameuserLineEdit.setGeometry(QtCore.QRect(380, 210, 461, 71))
+        self.nameuserLineEdit.setObjectName("nameuserLineEdit")
+        self.passwordLineEdit = QtWidgets.QLineEdit(self.widget)
+        self.passwordLineEdit.setGeometry(QtCore.QRect(380, 310, 461, 71))
+        self.passwordLineEdit.setObjectName("passwordLineEdit")
+        self.saveMeCheckBox = QtWidgets.QCheckBox(self.widget)
+        self.saveMeCheckBox.setGeometry(QtCore.QRect(470, 550, 291, 71))
+        self.saveMeCheckBox.setStyleSheet("font: 18pt \"Cantarell\";")
+        self.saveMeCheckBox.setObjectName("saveMeCheckBox")
+        self.echoPasswordCheckBox = QtWidgets.QCheckBox(self.widget)
+        self.echoPasswordCheckBox.setGeometry(QtCore.QRect(470, 600, 291, 71))
+        self.echoPasswordCheckBox.setStyleSheet("font: 18pt \"Cantarell\";")
+        self.echoPasswordCheckBox.setObjectName("echoPasswordCheckBox")
+        self.forgotPasswordPushButton = QtWidgets.QPushButton(self.widget)
+        self.forgotPasswordPushButton.setGeometry(QtCore.QRect(490, 690, 231, 36))
+        self.forgotPasswordPushButton.setStyleSheet("color: blue;\n"
+"font: 14pt \"Cantarell\";\n"
+"background-color: rgb(235, 235, 235);\n"
+"border:0px;")
+        self.forgotPasswordPushButton.setObjectName("forgotPasswordPushButton")
+        self.changePasswordPushButton = QtWidgets.QPushButton(self.widget)
+        self.changePasswordPushButton.setGeometry(QtCore.QRect(490, 740, 231, 36))
+        self.changePasswordPushButton.setStyleSheet("color: blue;\n"
+"font: 14pt \"Cantarell\";\n"
+"background-color: rgb(235, 235, 235);\n"
+"border:0px;")
+        self.changePasswordPushButton.setObjectName("changePasswordPushButton")
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
@@ -50,7 +84,14 @@ class Ui_Dialog(object):
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
-        self.label.setText(_translate("Dialog", "Добро пожаловать"))
-        self.label_2.setText(_translate("Dialog", "Вход или регистрация пользователя"))
-        self.loginDialog.setText(_translate("Dialog", "Вход"))
-        self.signupButton.setText(_translate("Dialog", "Регистрация"))
+        self.labelWelcom.setText(_translate("Dialog", "Окно авторизации"))
+        self.loginPushButton.setText(_translate("Dialog", "Войти"))
+        self.signupPushButton.setText(_translate("Dialog", "Регистрация"))
+        self.cancelPushButton.setText(_translate("Dialog", "Отмена"))
+        self.nameuserLineEdit.setPlaceholderText(_translate("Dialog", "   Имя пользователя"))
+        self.passwordLineEdit.setWhatsThis(_translate("Dialog", "<html><head/><body><p>sdefesrgvesrgvegrvevgre</p><p>vrbge</p></body></html>"))
+        self.passwordLineEdit.setPlaceholderText(_translate("Dialog", "   Пароль"))
+        self.saveMeCheckBox.setText(_translate("Dialog", "Запомнить меня"))
+        self.echoPasswordCheckBox.setText(_translate("Dialog", "Показать пароль"))
+        self.forgotPasswordPushButton.setText(_translate("Dialog", "Забыли пароль?"))
+        self.changePasswordPushButton.setText(_translate("Dialog", "Сменить пароль"))

@@ -16,7 +16,7 @@ def createConnection():
     print ("Нет ошибок", db.lastError().text())
     print("База подключена!")
     return True
-
+'''
 class Dialog(QDialog):
     def __init__(self):
         super(Dialog, self).__init__()
@@ -51,7 +51,7 @@ class Dialog(QDialog):
         return True
 
 
-
+'''
 class TableEditor(QDialog):
     def __init__(self, tableName, parent=None):
         super(TableEditor, self).__init__(parent)
@@ -180,7 +180,7 @@ if __name__=='__main__':
     if not createConnection():
         sys.exit(1)
     editor = TableEditor('products2')
-    screen = Dialog()
+
 
 
     sys.exit(app.exec_())
