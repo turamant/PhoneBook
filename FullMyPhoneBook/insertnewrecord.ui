@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>InsertDialog</class>
+ <widget class="QDialog" name="InsertDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1175</width>
+    <height>797</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QWidget" name="widget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>-10</x>
+     <y>0</y>
+     <width>1221</width>
+     <height>801</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(232, 232, 232);</string>
+   </property>
+   <widget class="QLabel" name="insertLabel">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>50</y>
+      <width>641</width>
+      <height>131</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 28pt &quot;DejaVu Math TeX Gyre&quot;;
+color: black;</string>
+    </property>
+    <property name="text">
+     <string>Добавить новый контакт</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="errorLabel">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>460</y>
+      <width>451</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: red;
+font: 18pt &quot;Cantarell&quot;;
+</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="insertPushButton">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>690</y>
+      <width>211</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius:20px;
+font: 18pt &quot;Cantarell&quot;;
+background-color: green;</string>
+    </property>
+    <property name="text">
+     <string>Добавить</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="nameField">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>200</y>
+      <width>461</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="placeholderText">
+     <string>   Фамилия</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="nomerField">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>290</y>
+      <width>461</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="placeholderText">
+     <string>   Номер телефона (10 цифр)</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="dayField">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>380</y>
+      <width>461</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="placeholderText">
+     <string>   День рождения</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="cancelPushButton">
+    <property name="geometry">
+     <rect>
+      <x>640</x>
+      <y>690</y>
+      <width>191</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius:20px;
+font: 18pt &quot;Cantarell&quot;;
+background-color: red;</string>
+    </property>
+    <property name="text">
+     <string>Отмена</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="yearField">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>560</y>
+      <width>461</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="placeholderText">
+     <string>   Год рождения</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="monthField">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>470</y>
+      <width>461</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="placeholderText">
+     <string>Месяц рождения</string>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
