@@ -1,3 +1,5 @@
+
+
 import concurrent.futures
 import sys
 
@@ -49,13 +51,13 @@ class WelcomeScreen(QDialog):
         user = self.ui.nameuserLineEdit.text()
         password = self.ui.passwordLineEdit.text()
         #query = 'SELECT password FROM login_info WHERE username =\'' + user + "\'"
-        query = 'SELECT password FROM users WHERE username =\'' + user + "\'"
+        query = 'SELECT password FROM users WHERE email =\'' + user + "\'"
         if len(user) == 0 or len(password) == 0:
             self.message.setInformativeText("Заполните все поля правильно!")
             self.message.show()
         else:
             try:
-                conn = sqlite3.connect("shop_data.db")
+                conn = sqlite3.connect("ph_book1.db")
             except sqlite3.Error:
                 print("База не доступна")
                 sys.exit(app.exec_())
@@ -125,10 +127,10 @@ class ChangePassword(QDialog):
         widget.setCurrentIndex(widget.currentIndex() + 1)
 
     def renewPasswordFunction(self):
-        selectStament  = "SELECT username, password FROM users Where username like '" + self.ui.emailField.text() +\
+        selectStament  = "SELECT email, password FROM users Where email like '" + self.ui.emailField.text() +\
                 "'and password like'" + self.ui.oldPasswordField.text()+"'"
         try:
-            conn = sqlite3.connect("shop_data.db")
+            conn = sqlite3.connect("ph_book1.db")
         except sqlite3.Error:
             print("база не доступна")
             sys.exit(app.exec_())
@@ -141,8 +143,8 @@ class ChangePassword(QDialog):
                 self.message.show()
             else:
                 if self.ui.newPasswordField.text() == self.ui.renewPasswordField.text():
-                    updateStament = "UPDATE users set password = '" + self.ui.newPasswordField.text() +\
-                                    "' WHERE username like'" + self.ui.emailField.text() + "'"
+                    updateStament = " UPDATE users set password = '" + self.ui.newPasswordField.text() +\
+                                    "' WHERE email like '" + self.ui.emailField.text() + "'"
                     with conn:
                         cur.execute(updateStament)
                         self.message.setStyleSheet("background-color: green;")
@@ -182,10 +184,10 @@ class RecoveryPassword(QDialog):
 
     def recoverysignupFunction(self):
         user = self.ui.recoveryPasswordField.text()
-        select = 'SELECT * FROM users WHERE username =\'' + user + "\'"
+        select = 'SELECT * FROM users WHERE email =\'' + user + "\'"
 
         try:
-            conn = sqlite3.connect("shop_data.db")
+            conn = sqlite3.connect("ph_book1.db")
         except sqlite3.Error:
             print("База не доступна")
             sys.exit(app.exec_())
@@ -200,7 +202,7 @@ class RecoveryPassword(QDialog):
             elif row != []:
                 print("Отправить пароль на почту!")
                 print(f"Был пароль {row[1]} ")
-                query_update = 'UPDATE users set password="89999" WHERE username =\'' + user + "\'"
+                query_update = 'UPDATE users set password="89999" WHERE email =\'' + user + "\'"
                 cur.execute(query_update)
                 conn.commit()
                 self.message.setStyleSheet("background-color: green;")
@@ -252,7 +254,7 @@ class CreateAccScreen(QDialog):
         user = self.ui.nameuserField.text()
         password = self.ui.passwordField.text()
         confirmpassword = self.ui.confirmField.text()
-        query = f"INSERT INTO users (username, password) VALUES ('{user}', '{password}')"
+        query = f"INSERT INTO users (email, password) VALUES ('{user}', '{password}')"
         if len(user) == 0 or len(password) == 0 or len(confirmpassword) == 0:
             self.message.setInformativeText("Заполните все поля!")
             self.message.show()
@@ -263,7 +265,7 @@ class CreateAccScreen(QDialog):
 
         else:
             try:
-                conn = sqlite3.connect("shop_data.db")
+                conn = sqlite3.connect("ph_book1.db")
             except sqlite3.Error:
                 print("База не доступна")
                 sys.exit(app.exec_())
@@ -283,6 +285,7 @@ class CreateAccScreen(QDialog):
                 self.message.setInformativeText("Пользователь с таким именем уже есть")
                 self.message.show()
             finally:
+
                 cur.close()
                 conn.close()
 
@@ -302,13 +305,81 @@ class MyForm(QDialog):
         self.ui = Ui_TableDialog()
         self.ui.setupUi(self)
         self.ui.displayRowspushButton.clicked.connect(self.DisplayRows)
+        self.ui.searchPushButton.clicked.connect(self.SearchRows)
+
+    def SearchRows(self):
+        #selectStament = "SELECT username, password FROM users Where username like '" + self.ui.emailField.text() + \
+        #                "'and password like'" + self.ui.oldPasswordField.text() + "'"
+        #sqlStatement = "SELECT password FROM users where name like'" + self.ui.familyLabel.text() + "'"
+        #query_update = 'UPDATE users set password="89999" WHERE username =\'' + user + "\'"
+
+        # sqlStatement = "SELECT * FROM phonebook WHERE name < 'И' ORDER BY family desc"
+        #sqlStatement = 'SELECT name, nomer, year  FROM phonebook WHERE year=\'' + self.ui.nameLineEdit.text() + "\' 1980"
+        sqlStatement = f"SELECT name, nomer, year FROM phonebook WHERE year < '{self.ui.nameLineEdit.text()}' ORDER BY year ASC"
+        # select name, nomer, year FROM phonebook WHERE year < 1980 ORDER BY year ASC;
+
+        try:
+            conn = sqlite3.connect("ph_book1.db")
+        except sqlite3.Error:
+            print("База не доступна")
+            sys.exit(app.exec_())
+        cur = conn.cursor()
+        try:
+            cur.execute(sqlStatement)
+            rows = cur.fetchall()
+            print(rows)
+            rowNo = 0
+            if rows == []:
+                self.ui.selectTableWidget.clear()
+            for tuple in rows:
+                colNo = 0
+                for columns in tuple:
+                    oneColumn = QTableWidgetItem(columns)
+                    self.ui.selectTableWidget.setItem(rowNo, colNo, oneColumn)
+                    colNo += 1
+                rowNo += 1
+        except sqlite3.IntegrityError:
+            self.ui.selectTableWidget.clear()
+            self.message.setInformativeText("Ошибка доступа к таблице")
+            self.message.show()
+        finally:
+            cur.close()
+            conn.close()
 
 
-
-    def DisplayRows(self):
-        sqlStatement = "SELECT * FROM  phonebook"
+        """
         try:
             conn = sqlite3.connect("phonebook2.db")
+            #conn = sqlite3.connect("shop_data.db")
+        except sqlite3.Error:
+            print("Дата база не доступна")
+            sys.exit(app.exec_())
+        cur = conn.cursor()
+        try:
+            cur.execute(sqlStatement)
+            rows = cur.fetchone()
+            if rows == None:
+                print("Не такого пользователя с таким адресом(фамилией")
+                self.ui.selectTableWidget("")
+            else:
+                print("Email Address Found, Password of this  User is: ")
+                self.ui.familyLabel.setText(rows[0])
+
+        except sqlite3.Error as e:
+            print("error")
+            self.ui.familyLabel.setText("Error in accessing row")
+        finally:
+            conn.close()
+   """
+
+    def DisplayRows(self):
+        """
+        вывести все записи таблицы '..nameTable...'
+        """
+        sqlStatement = "SELECT * FROM  phonebook"
+        #sqlStatement = "SELECT * FROM phonebook WHERE name < 'И' ORDER BY family desc"
+        try:
+            conn = sqlite3.connect("ph_book1.db")
         except sqlite3.Error:
             print("База не доступна")
             sys.exit(app.exec_())
@@ -323,11 +394,11 @@ class MyForm(QDialog):
                 colNo = 0
                 for columns in tuple:
                     oneColumn = QTableWidgetItem(columns)
-                    self.ui.tableWidget.setItem(rowNo, colNo, oneColumn)
+                    self.ui.allTableWidget.setItem(rowNo, colNo, oneColumn)
                     colNo += 1
                 rowNo += 1
         except sqlite3.IntegrityError:
-            self.ui.tableWidget.clear()
+            self.ui.allTableWidget.clear()
             self.message.setInformativeText("Ошибка доступа к таблице")
             self.message.show()
         finally:
