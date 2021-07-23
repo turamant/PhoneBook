@@ -16,15 +16,15 @@ from FullMyPhoneBook.renewPassword import Ui_RenewPasswordDialog
 from FullMyPhoneBook.insertnewrecord import Ui_InsertDialog
 
 
+
 import sqlite3
 
 
-class MyForm(QDialog):
+class MyFormUser(QDialog):
     def __init__(self):
         super().__init__()
         self.ui = Ui_TableDialog()
         self.ui.setupUi(self)
-        self.ui.displayRowspushButton.clicked.connect(self.DisplayRows)
         self.ui.ABsearchPushButton_1.clicked.connect(self.SearchRows_1)
         self.ui.VGsearchPushButton_2.clicked.connect(self.SearchRows_2)
         self.ui.DEsearchPushButton_3.clicked.connect(self.SearchRows_3)
@@ -39,8 +39,6 @@ class MyForm(QDialog):
         self.ui.IEsearchPushButton_12.clicked.connect(self.SearchRows_12)
         self.ui.YouYjasearchPushButton_13.clicked.connect(self.SearchRows_13)
 
-        self.ui.addPushButton.clicked.connect(self.gotoInsertNewRecord)
-
 
     def gotoInsertNewRecord(self):
         insertnewrecord = InsertNewRecord()
@@ -48,66 +46,64 @@ class MyForm(QDialog):
         widget.setCurrentIndex(widget.currentIndex() + 1)
 
     def SearchRows_1(self):
-        sql = self.sqlBase('А', 'Бя')
+        sql = self.sqlBase('А', 'В')
         self.SearchRows(sql)
-
-
     def SearchRows_2(self):
-        sql = self.sqlBase('В', 'Гя')
+        sql = self.sqlBase('В', 'Д')
         self.SearchRows(sql)
 
     def SearchRows_3(self):
-        sql = self.sqlBase('Д', 'Ея')
+        sql = self.sqlBase('Д', 'Ж')
         self.SearchRows(sql)
 
 
     def SearchRows_4(self):
-        sql = self.sqlBase('Ж', 'Йя')
+        sql = self.sqlBase('Ж', 'К')
         self.SearchRows(sql)
 
 
     def SearchRows_5(self):
-        sql = self.sqlBase('К', 'Ля')
+        sql = self.sqlBase('К', 'М')
         self.SearchRows(sql)
 
 
     def SearchRows_6(self):
-        sql = self.sqlBase('М', 'Ня')
+        sql = self.sqlBase('М', 'О')
         self.SearchRows(sql)
 
 
     def SearchRows_7(self):
-        sql = self.sqlBase('О', 'Пя')
+        sql = self.sqlBase('О', 'Р')
         self.SearchRows(sql)
 
 
     def SearchRows_8(self):
-        sql = self.sqlBase('Р', 'Ся')
+        sql = self.sqlBase('Р', 'Т')
         self.SearchRows(sql)
 
 
     def SearchRows_9(self):
-        sql = self.sqlBase('Т', 'Уя')
+        sql = self.sqlBase('Т', 'Ф')
         self.SearchRows(sql)
 
 
     def SearchRows_10(self):
-        sql = self.sqlBase('Ф', 'Хя')
+        sql = self.sqlBase('Ф', 'Ц')
         self.SearchRows(sql)
 
 
     def SearchRows_11(self):
-        sql = self.sqlBase('Ц', 'Щя')
+        sql = self.sqlBase('Ц', 'Ъ')
         self.SearchRows(sql)
 
 
     def SearchRows_12(self):
-        sql = self.sqlBase('Ъ', 'Эя')
+        sql = self.sqlBase('Ъ', 'Ю')
         self.SearchRows(sql)
 
 
     def SearchRows_13(self):
-        sql = self.sqlBase('Ю', 'Яя')
+        sql = self.sqlBase('Ю', 'Яяяя')
         self.SearchRows(sql)
 
     def sqlBase(self, a, b):
@@ -116,6 +112,7 @@ class MyForm(QDialog):
         return sql
 
     def SearchRows(self, sqlStatement):
+        self.ui.selectTableWidget.clear()
         try:
             conn = sqlite3.connect("ph_book1.db")
         except sqlite3.Error:
@@ -125,9 +122,9 @@ class MyForm(QDialog):
         try:
             cur.execute(sqlStatement)
             rows = cur.fetchall()
-            print(rows)
+            print("Все строки ", rows)
             rowNo = 0
-            self.ui.selectTableWidget.clear()
+            #self.ui.selectTableWidget.clear()
             for tuple in rows:
                 colNo = 0
                 for columns in tuple:
@@ -143,39 +140,8 @@ class MyForm(QDialog):
             cur.close()
             conn.close()
 
-    def DisplayRows(self):
-        """
-        вывести все записи таблицы '..nameTable...'
-        """
-        sqlStatement = "SELECT * FROM  phonebook Order By name asc"
-        #sqlStatement = "SELECT * FROM phonebook WHERE name < 'И' ORDER BY family desc"
-        try:
-            conn = sqlite3.connect("ph_book1.db")
-        except sqlite3.Error:
-            print("База не доступна")
-            sys.exit(app.exec_())
-        cur = conn.cursor()
-        try:
-            cur.execute(sqlStatement)
-            rows = cur.fetchall()
-            print(rows)
-            rowNo = 0
 
-            for tuple in rows:
-                colNo = 0
-                for columns in tuple:
-                    oneColumn = QTableWidgetItem(columns)
-                    self.ui.allTableWidget.setItem(rowNo, colNo, oneColumn)
-                    colNo += 1
-                rowNo += 1
-        except sqlite3.IntegrityError:
-            self.ui.allTableWidget.clear()
-            self.message.setInformativeText("Ошибка доступа к таблице")
-            self.message.show()
-        finally:
-            cur.close()
-            conn.close()
-class MyForm2(QDialog):
+class MyFormAdmin(QDialog):
     def __init__(self):
         super().__init__()
         self.ui = Ui_TableDialog2()
@@ -293,7 +259,7 @@ class MyForm2(QDialog):
 
 
     def SearchRows_13(self):
-        sql = self.sqlBase('Ю', 'Яя')
+        sql = self.sqlBase('Ю', 'Яяяя')
         self.SearchRows(sql)
 
     def sqlBase(self, a, b):
@@ -328,9 +294,6 @@ class MyForm2(QDialog):
         finally:
             cur.close()
             conn.close()
-
-
-
 
 class WelcomeScreen(QDialog):
     def __init__(self):
@@ -413,10 +376,10 @@ class WelcomeScreen(QDialog):
                     self.message.show()
                 elif result_pass != [] and result_pass[0] == password:
                     print("Successfull logged it!")
-                    if user == 'admin@admin.com':
-                        mytable = MyForm()
+                    if user == 'admin':  #'admin@admin.com':
+                        mytable = MyFormAdmin()
                     else:
-                        mytable = MyForm2()
+                        mytable = MyFormUser()
                     widget.addWidget(mytable)
                     widget.setCurrentIndex(widget.currentIndex() + 1)
                 else:
@@ -659,12 +622,12 @@ class InsertNewRecord(QDialog):
         self.message.setText("Ошибка регистрации!")
 
     def gotoCansel(self):
-        myform = MyForm()
+        myform = MyFormUser()
         widget.addWidget(myform)
         widget.setCurrentIndex(widget.currentIndex() + 1)
 
     def gotoMyForm(self):
-        myform = MyForm()
+        myform = MyFormUser()
         widget.addWidget(myform)
         widget.setCurrentIndex(widget.currentIndex() + 1)
 
@@ -709,6 +672,7 @@ if __name__=='__main__':
     widget.setFixedHeight(800)
     widget.setFixedWidth(1200)
     widget.show()
+    
     try:
         sys.exit(app.exec_())
     except:
