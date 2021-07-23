@@ -15,16 +15,14 @@ from FullMyPhoneBook.recoveryPassword import Ui_RecoveryPasswordDialog
 from FullMyPhoneBook.renewPassword import Ui_RenewPasswordDialog
 from FullMyPhoneBook.insertnewrecord import Ui_InsertDialog
 
-
-
 import sqlite3
-
 
 class MyFormUser(QDialog):
     def __init__(self):
         super().__init__()
         self.ui = Ui_TableDialog()
         self.ui.setupUi(self)
+
         self.ui.ABsearchPushButton_1.clicked.connect(self.SearchRows_1)
         self.ui.VGsearchPushButton_2.clicked.connect(self.SearchRows_2)
         self.ui.DEsearchPushButton_3.clicked.connect(self.SearchRows_3)
@@ -38,7 +36,7 @@ class MyFormUser(QDialog):
         self.ui.ZHSSsearchPushButton_11.clicked.connect(self.SearchRows_11)
         self.ui.IEsearchPushButton_12.clicked.connect(self.SearchRows_12)
         self.ui.YouYjasearchPushButton_13.clicked.connect(self.SearchRows_13)
-
+        self.ui.AZsearchPushButton_14.clicked.connect(self.SearchRows_14)
 
     def gotoInsertNewRecord(self):
         insertnewrecord = InsertNewRecord()
@@ -48,6 +46,7 @@ class MyFormUser(QDialog):
     def SearchRows_1(self):
         sql = self.sqlBase('А', 'В')
         self.SearchRows(sql)
+
     def SearchRows_2(self):
         sql = self.sqlBase('В', 'Д')
         self.SearchRows(sql)
@@ -56,63 +55,72 @@ class MyFormUser(QDialog):
         sql = self.sqlBase('Д', 'Ж')
         self.SearchRows(sql)
 
-
     def SearchRows_4(self):
         sql = self.sqlBase('Ж', 'К')
         self.SearchRows(sql)
-
 
     def SearchRows_5(self):
         sql = self.sqlBase('К', 'М')
         self.SearchRows(sql)
 
-
     def SearchRows_6(self):
         sql = self.sqlBase('М', 'О')
         self.SearchRows(sql)
-
 
     def SearchRows_7(self):
         sql = self.sqlBase('О', 'Р')
         self.SearchRows(sql)
 
-
     def SearchRows_8(self):
         sql = self.sqlBase('Р', 'Т')
         self.SearchRows(sql)
-
 
     def SearchRows_9(self):
         sql = self.sqlBase('Т', 'Ф')
         self.SearchRows(sql)
 
-
     def SearchRows_10(self):
         sql = self.sqlBase('Ф', 'Ц')
         self.SearchRows(sql)
-
 
     def SearchRows_11(self):
         sql = self.sqlBase('Ц', 'Ъ')
         self.SearchRows(sql)
 
-
     def SearchRows_12(self):
         sql = self.sqlBase('Ъ', 'Ю')
         self.SearchRows(sql)
-
 
     def SearchRows_13(self):
         sql = self.sqlBase('Ю', 'Яяяя')
         self.SearchRows(sql)
 
+    def SearchRows_14(self):
+        sql = self.sqlBase('A', 'zzz')
+        self.SearchRows(sql)
+
+
     def sqlBase(self, a, b):
-        sql = f"SELECT name, nomer, year, day, month FROM phonebook WHERE name >=" \
+        sql = f"SELECT name, nomer, year, month, day FROM phonebook WHERE name >=" \
               f" '{a}' AND name <= '{b}'  ORDER BY name ASC"
         return sql
 
+    def fillTable(self, yes_no_fake, rows=('', '', '', '', '')):
+        """ Обнуляет предудущие данные и заполняет таблицу новыми данными
+            из Базы данных,
+        """
+        if yes_no_fake == True:
+            rows = [2000 * rows]
+        rowNo = 0
+        for tuple in rows:
+            colNo = 0
+            for columns in tuple:
+                self.ui.selectTableWidget.setItem(rowNo, colNo, QTableWidgetItem(columns))
+                colNo += 1
+            rowNo += 1
+        print("Всего строк", rowNo)
+
     def SearchRows(self, sqlStatement):
-        self.ui.selectTableWidget.clear()
         try:
             conn = sqlite3.connect("ph_book1.db")
         except sqlite3.Error:
@@ -122,16 +130,8 @@ class MyFormUser(QDialog):
         try:
             cur.execute(sqlStatement)
             rows = cur.fetchall()
-            print("Все строки ", rows)
-            rowNo = 0
-            #self.ui.selectTableWidget.clear()
-            for tuple in rows:
-                colNo = 0
-                for columns in tuple:
-                    oneColumn = QTableWidgetItem(columns)
-                    self.ui.selectTableWidget.setItem(rowNo, colNo, oneColumn)
-                    colNo += 1
-                rowNo += 1
+            self.fillTable(yes_no_fake=True)
+            self.fillTable(yes_no_fake=False, rows=rows)
         except sqlite3.IntegrityError:
             self.ui.selectTableWidget.clear()
             self.message.setInformativeText("Ошибка доступа к таблице")
@@ -139,7 +139,6 @@ class MyFormUser(QDialog):
         finally:
             cur.close()
             conn.close()
-
 
 class MyFormAdmin(QDialog):
     def __init__(self):
@@ -159,21 +158,15 @@ class MyFormAdmin(QDialog):
         self.ui.ZHSSsearchPushButton_11.clicked.connect(self.SearchRows_11)
         self.ui.IEsearchPushButton_12.clicked.connect(self.SearchRows_12)
         self.ui.YouYjasearchPushButton_13.clicked.connect(self.SearchRows_13)
+        self.ui.AZsearchPushButton_14.clicked.connect(self.SearchRows_14)
+
 
         self.ui.addPushButton.clicked.connect(self.insertNewRecord)
-
-
-    #def gotoInsertNewRecord(self):
-    #    insertnewrecord = InsertNewRecord()
-    #    widget.addWidget(insertnewrecord)
-    #    widget.setCurrentIndex(widget.currentIndex() + 1)
-    #def gotoMyForm2(self):
-        #myform = MyForm2()
-        #widget.addWidget(myform)
-        #widget.setCurrentIndex(widget.currentIndex() + 1)
+        self.ui.updatePushButton.clicked.connect(self.updateRecord)
+        self.ui.deletePushButton.clicked.connect(self.deleteRecord)
 
     def insertNewRecord(self):
-        name = self.ui.nameLineEdit.text()
+        name = self.ui.nameLineEdit.text().capitalize()
         nomer = self.ui.nomerLineEdit.text()
         day = self.ui.dayLineEdit.text()
         month = self.ui.monthLineEdit.text()
@@ -201,72 +194,117 @@ class MyFormAdmin(QDialog):
             cur.close()
             conn.close()
 
+    def updateRecord(self):
+        name = self.ui.nameLineEdit.text().capitalize()
+        nomer = self.ui.nomerLineEdit.text()
+        day = self.ui.dayLineEdit.text()
+        month = self.ui.monthLineEdit.text()
+        year = self.ui.yearLineEdit.text()
+        query = f"SELECT * from phonebook where name='{name}'"
+        query_update = f"UPDATE phonebook SET nomer='{nomer}', day='{day}'," \
+                       f" month='{month}', year='{year}' WHERE name='{name}'"
+
+        try:
+            conn = sqlite3.connect("ph_book1.db")
+        except sqlite3.Error:
+            print("База не доступна")
+            sys.exit(app.exec_())
+        cur = conn.cursor()
+        cur.execute(query)
+        row = cur.fetchone()
+        if row == None:
+            print("Нет такого ID  в таблице")
+        else:
+            print("Есть такая информайия о продукте с ID %d :")
+
+        cur.execute(query_update)
+        cur.close()
+        conn.commit()
+        print("Изменения проведены успешно для ID: %d")
+        conn.close()
+
+    def deleteRecord(self):
+        name = self.ui.nameLineEdit.text().capitalize()
+        query = f"SELECT * FROM phonebook WHERE name='{name}'"
+        qyery_delete = f"DELETE from phonebook WHERE name='{name}'"
+        try:
+            conn = sqlite3.connect("ph_book1.db")
+        except sqlite3.Error:
+            print("База не доступна")
+            sys.exit(app.exec_())
+        cur = conn.cursor()
+        cur.execute(query)
+        row = cur.fetchone()
+        if row == None:
+            print("Нет такого контакта в таблице")
+        else:
+            print("Есть такая информайия о контакте")
+            cur.execute(qyery_delete)
+            print("Контакт удален!")
+            cur.close()
+            conn.commit()
+            conn.close()
+
     def SearchRows_1(self):
         sql = self.sqlBase('А', 'В')
         self.SearchRows(sql)
     def SearchRows_2(self):
         sql = self.sqlBase('В', 'Д')
         self.SearchRows(sql)
-
     def SearchRows_3(self):
         sql = self.sqlBase('Д', 'Ж')
         self.SearchRows(sql)
-
-
     def SearchRows_4(self):
         sql = self.sqlBase('Ж', 'К')
         self.SearchRows(sql)
-
-
     def SearchRows_5(self):
         sql = self.sqlBase('К', 'М')
         self.SearchRows(sql)
-
-
     def SearchRows_6(self):
         sql = self.sqlBase('М', 'О')
         self.SearchRows(sql)
-
-
     def SearchRows_7(self):
         sql = self.sqlBase('О', 'Р')
         self.SearchRows(sql)
-
-
     def SearchRows_8(self):
         sql = self.sqlBase('Р', 'Т')
         self.SearchRows(sql)
-
-
     def SearchRows_9(self):
         sql = self.sqlBase('Т', 'Ф')
         self.SearchRows(sql)
-
-
     def SearchRows_10(self):
         sql = self.sqlBase('Ф', 'Ц')
         self.SearchRows(sql)
-
-
     def SearchRows_11(self):
         sql = self.sqlBase('Ц', 'Ъ')
         self.SearchRows(sql)
-
-
     def SearchRows_12(self):
         sql = self.sqlBase('Ъ', 'Ю')
         self.SearchRows(sql)
-
-
     def SearchRows_13(self):
         sql = self.sqlBase('Ю', 'Яяяя')
         self.SearchRows(sql)
-
+    def SearchRows_14(self):
+        sql = self.sqlBase('A', 'zzz')
+        self.SearchRows(sql)
     def sqlBase(self, a, b):
-        sql = f"SELECT name, nomer, year, day, month FROM phonebook WHERE name >=" \
+        sql = f"SELECT name, nomer, year, month, day FROM phonebook WHERE name >=" \
               f" '{a}' AND name <= '{b}'  ORDER BY name ASC"
         return sql
-
+    def fillTable(self, yes_no_fake, rows=('', '', '', '', '')):
+        """ Обнуляет предудущие данные и заполняет таблицу новыми данными
+            из Базы данных,
+        """
+        if yes_no_fake == True:
+            rows = [2000 * rows]
+        rowNo = 0
+        for tuple in rows:
+            colNo = 0
+            for columns in tuple:
+                self.ui.selectTableWidget.setItem(rowNo, colNo, QTableWidgetItem(columns))
+                colNo += 1
+            rowNo += 1
+        print("Всего строк", rowNo)
     def SearchRows(self, sqlStatement):
         try:
             conn = sqlite3.connect("ph_book1.db")
@@ -277,16 +315,8 @@ class MyFormAdmin(QDialog):
         try:
             cur.execute(sqlStatement)
             rows = cur.fetchall()
-            print(rows)
-            rowNo = 0
-            self.ui.selectTableWidget.clear()
-            for tuple in rows:
-                colNo = 0
-                for columns in tuple:
-                    oneColumn = QTableWidgetItem(columns)
-                    self.ui.selectTableWidget.setItem(rowNo, colNo, oneColumn)
-                    colNo += 1
-                rowNo += 1
+            self.fillTable(yes_no_fake=True)
+            self.fillTable(yes_no_fake=False, rows=rows)
         except sqlite3.IntegrityError:
             self.ui.selectTableWidget.clear()
             self.message.setInformativeText("Ошибка доступа к таблице")

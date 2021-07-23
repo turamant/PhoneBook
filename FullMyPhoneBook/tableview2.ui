@@ -10098,17 +10098,17 @@
    </column>
    <column>
     <property name="text">
-     <string>День рождения</string>
+     <string>Год р.</string>
     </property>
    </column>
    <column>
     <property name="text">
-     <string>Месяц рождения</string>
+     <string>Месяц р.</string>
     </property>
    </column>
    <column>
     <property name="text">
-     <string>Год рождения</string>
+     <string>День р.</string>
     </property>
    </column>
    <column/>
@@ -10393,6 +10393,56 @@ font: 12pt &quot;Cantarell&quot;;</string>
    </property>
    <property name="text">
     <string>admin</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="AZsearchPushButton_14">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>540</y>
+     <width>113</width>
+     <height>36</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">selection-background-color: rgb(255, 7, 32);</string>
+   </property>
+   <property name="text">
+    <string>A-Z</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="updatePushButton">
+   <property name="geometry">
+    <rect>
+     <x>900</x>
+     <y>420</y>
+     <width>261</width>
+     <height>36</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 10pt &quot;Cantarell&quot;;
+color: rgb(0, 85, 0);</string>
+   </property>
+   <property name="text">
+    <string>Изменить данные контакта</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="deletePushButton">
+   <property name="geometry">
+    <rect>
+     <x>900</x>
+     <y>460</y>
+     <width>261</width>
+     <height>36</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 10pt &quot;Cantarell&quot;;
+color: rgb(0, 85, 0);</string>
+   </property>
+   <property name="text">
+    <string>Удалить контакт</string>
    </property>
   </widget>
  </widget>
