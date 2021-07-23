@@ -237,7 +237,7 @@ class MyForm2(QDialog):
 
     def SearchRows_1(self):
         sql = self.sqlBase('А', 'Бя')
-        self.SearchR
+        self.SearchRows(sql)
     def SearchRows_2(self):
         sql = self.sqlBase('В', 'Гя')
         self.SearchRows(sql)
