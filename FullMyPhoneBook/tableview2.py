@@ -114,6 +114,7 @@ class Ui_TableDialog2(object):
         self.label.setGeometry(QtCore.QRect(980, 50, 131, 21))
         self.label.setStyleSheet("color: rgb(0, 0, 255);\n"
 "font: 12pt \"Cantarell\";")
+        self.label.setText("")
         self.label.setObjectName("label")
         self.AZsearchPushButton_14 = QtWidgets.QPushButton(TableDialog2)
         self.AZsearchPushButton_14.setGeometry(QtCore.QRect(20, 540, 113, 36))
@@ -166,7 +167,6 @@ class Ui_TableDialog2(object):
         self.dayLineEdit.setPlaceholderText(_translate("TableDialog2", "   День рождения"))
         self.monthLineEdit.setPlaceholderText(_translate("TableDialog2", "   Месяц рождения"))
         self.yearLineEdit.setPlaceholderText(_translate("TableDialog2", "   Год рождения"))
-        self.label.setText(_translate("TableDialog2", "admin"))
         self.AZsearchPushButton_14.setText(_translate("TableDialog2", "A-Z"))
         self.updatePushButton.setText(_translate("TableDialog2", "Изменить данные контакта"))
         self.deletePushButton.setText(_translate("TableDialog2", "Удалить контакт"))

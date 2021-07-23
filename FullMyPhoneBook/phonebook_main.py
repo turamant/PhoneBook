@@ -7,6 +7,7 @@ from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QDialog, QApplication, QWidget, QTableWidgetItem, QMessageBox
 
 from FullMyPhoneBook.tableview import Ui_TableDialog
+
 from FullMyPhoneBook.tableview2 import Ui_TableDialog2
 from FullMyPhoneBook.welcomescreen import Ui_Dialog
 from FullMyPhoneBook.signup import Ui_SignUpDialog
@@ -140,7 +141,10 @@ class MyFormUser(QDialog):
             cur.close()
             conn.close()
 
-class MyFormAdmin(QDialog):
+
+
+
+class InheretensFormTableAdmin(MyFormUser):
     def __init__(self):
         super().__init__()
         self.ui = Ui_TableDialog2()
@@ -159,7 +163,6 @@ class MyFormAdmin(QDialog):
         self.ui.IEsearchPushButton_12.clicked.connect(self.SearchRows_12)
         self.ui.YouYjasearchPushButton_13.clicked.connect(self.SearchRows_13)
         self.ui.AZsearchPushButton_14.clicked.connect(self.SearchRows_14)
-
 
         self.ui.addPushButton.clicked.connect(self.insertNewRecord)
         self.ui.updatePushButton.clicked.connect(self.updateRecord)
@@ -184,7 +187,7 @@ class MyFormAdmin(QDialog):
             cur.execute(query)
             conn.commit()
             print("Добавлена успешно!")
-            #self.gotoMyForm2()
+            # self.gotoMyForm2()
         except sqlite3.IntegrityError:
             conn.rollback()
             print("Произошла ошибка доступа")
@@ -224,7 +227,7 @@ class MyFormAdmin(QDialog):
         conn.close()
 
     def deleteRecord(self):
-        name = self.ui.nameLineEdit.text().capitalize()
+        name = self.ui.nameLineEdit.text()
         query = f"SELECT * FROM phonebook WHERE name='{name}'"
         qyery_delete = f"DELETE from phonebook WHERE name='{name}'"
         try:
@@ -245,85 +248,6 @@ class MyFormAdmin(QDialog):
             conn.commit()
             conn.close()
 
-    def SearchRows_1(self):
-        sql = self.sqlBase('А', 'В')
-        self.SearchRows(sql)
-    def SearchRows_2(self):
-        sql = self.sqlBase('В', 'Д')
-        self.SearchRows(sql)
-    def SearchRows_3(self):
-        sql = self.sqlBase('Д', 'Ж')
-        self.SearchRows(sql)
-    def SearchRows_4(self):
-        sql = self.sqlBase('Ж', 'К')
-        self.SearchRows(sql)
-    def SearchRows_5(self):
-        sql = self.sqlBase('К', 'М')
-        self.SearchRows(sql)
-    def SearchRows_6(self):
-        sql = self.sqlBase('М', 'О')
-        self.SearchRows(sql)
-    def SearchRows_7(self):
-        sql = self.sqlBase('О', 'Р')
-        self.SearchRows(sql)
-    def SearchRows_8(self):
-        sql = self.sqlBase('Р', 'Т')
-        self.SearchRows(sql)
-    def SearchRows_9(self):
-        sql = self.sqlBase('Т', 'Ф')
-        self.SearchRows(sql)
-    def SearchRows_10(self):
-        sql = self.sqlBase('Ф', 'Ц')
-        self.SearchRows(sql)
-    def SearchRows_11(self):
-        sql = self.sqlBase('Ц', 'Ъ')
-        self.SearchRows(sql)
-    def SearchRows_12(self):
-        sql = self.sqlBase('Ъ', 'Ю')
-        self.SearchRows(sql)
-    def SearchRows_13(self):
-        sql = self.sqlBase('Ю', 'Яяяя')
-        self.SearchRows(sql)
-    def SearchRows_14(self):
-        sql = self.sqlBase('A', 'zzz')
-        self.SearchRows(sql)
-    def sqlBase(self, a, b):
-        sql = f"SELECT name, nomer, year, month, day FROM phonebook WHERE name >=" \
-              f" '{a}' AND name <= '{b}'  ORDER BY name ASC"
-        return sql
-    def fillTable(self, yes_no_fake, rows=('', '', '', '', '')):
-        """ Обнуляет предудущие данные и заполняет таблицу новыми данными
-            из Базы данных,
-        """
-        if yes_no_fake == True:
-            rows = [2000 * rows]
-        rowNo = 0
-        for tuple in rows:
-            colNo = 0
-            for columns in tuple:
-                self.ui.selectTableWidget.setItem(rowNo, colNo, QTableWidgetItem(columns))
-                colNo += 1
-            rowNo += 1
-        print("Всего строк", rowNo)
-    def SearchRows(self, sqlStatement):
-        try:
-            conn = sqlite3.connect("ph_book1.db")
-        except sqlite3.Error:
-            print("База не доступна")
-            sys.exit(app.exec_())
-        cur = conn.cursor()
-        try:
-            cur.execute(sqlStatement)
-            rows = cur.fetchall()
-            self.fillTable(yes_no_fake=True)
-            self.fillTable(yes_no_fake=False, rows=rows)
-        except sqlite3.IntegrityError:
-            self.ui.selectTableWidget.clear()
-            self.message.setInformativeText("Ошибка доступа к таблице")
-            self.message.show()
-        finally:
-            cur.close()
-            conn.close()
 
 class WelcomeScreen(QDialog):
     def __init__(self):
@@ -407,7 +331,7 @@ class WelcomeScreen(QDialog):
                 elif result_pass != [] and result_pass[0] == password:
                     print("Successfull logged it!")
                     if user == 'admin':  #'admin@admin.com':
-                        mytable = MyFormAdmin()
+                        mytable = InheretensFormTableAdmin()
                     else:
                         mytable = MyFormUser()
                     widget.addWidget(mytable)
@@ -693,6 +617,8 @@ class InsertNewRecord(QDialog):
 
             cur.close()
             conn.close()
+
+
 
 if __name__=='__main__':
     app = QApplication(sys.argv)

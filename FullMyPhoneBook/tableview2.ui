@@ -10392,7 +10392,7 @@ color: rgb(0, 85, 0);</string>
 font: 12pt &quot;Cantarell&quot;;</string>
    </property>
    <property name="text">
-    <string>admin</string>
+    <string/>
    </property>
   </widget>
   <widget class="QPushButton" name="AZsearchPushButton_14">
