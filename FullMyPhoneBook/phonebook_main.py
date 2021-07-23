@@ -180,7 +180,6 @@ class MyForm2(QDialog):
         super().__init__()
         self.ui = Ui_TableDialog2()
         self.ui.setupUi(self)
-        self.ui.displayRowspushButton.clicked.connect(self.DisplayRows)
         self.ui.ABsearchPushButton_1.clicked.connect(self.SearchRows_1)
         self.ui.VGsearchPushButton_2.clicked.connect(self.SearchRows_2)
         self.ui.DEsearchPushButton_3.clicked.connect(self.SearchRows_3)
@@ -195,19 +194,50 @@ class MyForm2(QDialog):
         self.ui.IEsearchPushButton_12.clicked.connect(self.SearchRows_12)
         self.ui.YouYjasearchPushButton_13.clicked.connect(self.SearchRows_13)
 
-        self.ui.addPushButton.clicked.connect(self.gotoInsertNewRecord)
+        self.ui.addPushButton.clicked.connect(self.insertNewRecord)
 
 
-    def gotoInsertNewRecord(self):
-        insertnewrecord = InsertNewRecord()
-        widget.addWidget(insertnewrecord)
-        widget.setCurrentIndex(widget.currentIndex() + 1)
+    #def gotoInsertNewRecord(self):
+    #    insertnewrecord = InsertNewRecord()
+    #    widget.addWidget(insertnewrecord)
+    #    widget.setCurrentIndex(widget.currentIndex() + 1)
+    #def gotoMyForm2(self):
+        #myform = MyForm2()
+        #widget.addWidget(myform)
+        #widget.setCurrentIndex(widget.currentIndex() + 1)
+
+    def insertNewRecord(self):
+        name = self.ui.nameLineEdit.text()
+        nomer = self.ui.nomerLineEdit.text()
+        day = self.ui.dayLineEdit.text()
+        month = self.ui.monthLineEdit.text()
+        year = self.ui.yearLineEdit.text()
+
+        try:
+            conn = sqlite3.connect("ph_book1.db")
+        except sqlite3.Error:
+            print("База не доступна")
+            sys.exit(app.exec_())
+        cur = conn.cursor()
+
+        try:
+            query = f"INSERT INTO phonebook (name, nomer, day, month, year) VALUES ('{name}', '{nomer}', '{day}','{month}','{year}')"
+            cur.execute(query)
+            conn.commit()
+            print("Добавлена успешно!")
+            #self.gotoMyForm2()
+        except sqlite3.IntegrityError:
+            conn.rollback()
+            print("Произошла ошибка доступа")
+
+        finally:
+
+            cur.close()
+            conn.close()
 
     def SearchRows_1(self):
         sql = self.sqlBase('А', 'Бя')
-        self.SearchRows(sql)
-
-
+        self.SearchR
     def SearchRows_2(self):
         sql = self.sqlBase('В', 'Гя')
         self.SearchRows(sql)
@@ -299,38 +329,7 @@ class MyForm2(QDialog):
             cur.close()
             conn.close()
 
-    def DisplayRows(self):
-        """
-        вывести все записи таблицы '..nameTable...'
-        """
-        sqlStatement = "SELECT * FROM  phonebook Order By name asc"
-        #sqlStatement = "SELECT * FROM phonebook WHERE name < 'И' ORDER BY family desc"
-        try:
-            conn = sqlite3.connect("ph_book1.db")
-        except sqlite3.Error:
-            print("База не доступна")
-            sys.exit(app.exec_())
-        cur = conn.cursor()
-        try:
-            cur.execute(sqlStatement)
-            rows = cur.fetchall()
-            print(rows)
-            rowNo = 0
 
-            for tuple in rows:
-                colNo = 0
-                for columns in tuple:
-                    oneColumn = QTableWidgetItem(columns)
-                    self.ui.allTableWidget.setItem(rowNo, colNo, oneColumn)
-                    colNo += 1
-                rowNo += 1
-        except sqlite3.IntegrityError:
-            self.ui.allTableWidget.clear()
-            self.message.setInformativeText("Ошибка доступа к таблице")
-            self.message.show()
-        finally:
-            cur.close()
-            conn.close()
 
 
 class WelcomeScreen(QDialog):
@@ -344,7 +343,7 @@ class WelcomeScreen(QDialog):
         self.ui.passwordLineEdit.setEchoMode(QtWidgets.QLineEdit.Password)
         self.ui.loginPushButton.clicked.connect(self.loginFunction)
         self.ui.echoPasswordCheckBox.stateChanged.connect(self.dispAmount)
-        self.ui.saveMeCheckBox.clicked.connect(self.saveMe)
+        self.ui.saveMeCheckBox.stateChanged.connect(self.saveMe)
         self.ui.forgotPasswordPushButton.clicked.connect(self.gotoRecoveryPassword)
         self.ui.changePasswordPushButton.clicked.connect(self.gotoChangePassword)
 
@@ -356,12 +355,11 @@ class WelcomeScreen(QDialog):
         """
         сохранить пользователя с паролем в БД , для автоматического входа
         """
+        if self.ui.saveMeCheckBox.isChecked():
+            print("Нажата")
         user = self.ui.nameuserLineEdit.text()
         password = self.ui.passwordLineEdit.text()
         query = f"INSERT INTO saveme (email, password) VALUES ('{user}', '{password}')"
-        if len(user) == 0 or len(password) == 0:
-            self.message.setInformativeText("Заполните все поля!")
-            self.message.show()
         try:
             conn = sqlite3.connect("ph_book1.db")
         except sqlite3.Error:
@@ -372,24 +370,16 @@ class WelcomeScreen(QDialog):
         try:
             cur.execute(query)
             conn.commit()
-            self.message.setStyleSheet("background-color: green;")
-            self.message.setText("Успешная регистрация!")
-            self.message.setInformativeText(f"Больше справ=шивать не будем пароль - {user}")
-            self.message.show()
-            self.gotoWelcome()
-            # self.gotoFillProfile()
         except sqlite3.IntegrityError:
             conn.rollback()
-            self.message.setInformativeText("Пользователь с таким именем уже есть")
-            self.message.show()
         finally:
 
             cur.close()
             conn.close()
 
-        welcome = WelcomeScreen()
-        widget.addWidget(welcome)
-        widget.setCurrentIndex(widget.currentIndex() + 1)
+        print("Отжата")
+        if self.ui.echoPasswordCheckBox.isChecked() == True:
+            print("Нажата")
 
     def dispAmount(self):
         """
@@ -400,54 +390,45 @@ class WelcomeScreen(QDialog):
             self.ui.passwordLineEdit.setEchoMode(QtWidgets.QLineEdit.Normal)
 
     def loginFunction(self):
-        autouser = AutoEntrance()
-        userpassw = autouser.check_user()
-        print("userpassw до if", userpassw)
-        if userpassw != ('', '') and userpassw != None:
-            print("userpassw", userpassw)
-            mytable = MyForm2()
-            widget.addWidget(mytable)
-            widget.setCurrentIndex(widget.currentIndex() + 1)
+        user = self.ui.nameuserLineEdit.text()
+        password = self.ui.passwordLineEdit.text()
+        #query = 'SELECT password FROM login_info WHERE username =\'' + user + "\'"
+        query = 'SELECT password FROM users WHERE email =\'' + user + "\'"
+        if len(user) == 0 or len(password) == 0:
+            self.message.setInformativeText("Заполните все поля правильно!")
+            self.message.show()
         else:
-            user = self.ui.nameuserLineEdit.text()
-            password = self.ui.passwordLineEdit.text()
-            #query = 'SELECT password FROM login_info WHERE username =\'' + user + "\'"
-            query = 'SELECT password FROM users WHERE email =\'' + user + "\'"
-            if len(user) == 0 or len(password) == 0:
-                self.message.setInformativeText("Заполните все поля правильно!")
-                self.message.show()
-            else:
-                try:
-                    conn = sqlite3.connect("ph_book1.db")
-                except sqlite3.Error:
-                    print("База не доступна")
-                    sys.exit(app.exec_())
-                cur = conn.cursor()
-                try:
-                    cur.execute(query)
-                    result_pass = cur.fetchone()
-                    print(result_pass)
-                    if result_pass == None:
-                        self.message.setInformativeText("Такого пользователя нет!")
-                        self.message.show()
-                    elif result_pass != [] and result_pass[0] == password:
-                        print("Successfull logged it!")
-                        if user == 'admin@admin.com':
-                            mytable = MyForm()
-                        else:
-                            mytable = MyForm2()
-                        widget.addWidget(mytable)
-                        widget.setCurrentIndex(widget.currentIndex() + 1)
-                    else:
-                        self.message.setInformativeText("Ошибка имени или пароля!")
-                        self.message.show()
-
-                except:
-                    self.message.setInformativeText("Ошибка доступа к записям!")
+            try:
+                conn = sqlite3.connect("ph_book1.db")
+            except sqlite3.Error:
+                print("База не доступна")
+                sys.exit(app.exec_())
+            cur = conn.cursor()
+            try:
+                cur.execute(query)
+                result_pass = cur.fetchone()
+                print(result_pass)
+                if result_pass == None:
+                    self.message.setInformativeText("Такого пользователя нет!")
                     self.message.show()
-                finally:
-                    cur.close()
-                    conn.close()
+                elif result_pass != [] and result_pass[0] == password:
+                    print("Successfull logged it!")
+                    if user == 'admin@admin.com':
+                        mytable = MyForm()
+                    else:
+                        mytable = MyForm2()
+                    widget.addWidget(mytable)
+                    widget.setCurrentIndex(widget.currentIndex() + 1)
+                else:
+                    self.message.setInformativeText("Ошибка имени или пароля!")
+                    self.message.show()
+
+            except:
+                self.message.setInformativeText("Ошибка доступа к записям!")
+                self.message.show()
+            finally:
+                cur.close()
+                conn.close()
 
     def gotoWelcome(self):
         welcome = WelcomeScreen()
@@ -658,17 +639,11 @@ class CreateAccScreen(QDialog):
                 cur.close()
                 conn.close()
 
-
-
-
-
 class FillProfileScreen(QDialog):
     def __init__(self):
         super().__init__()
         self.ui = Ui_fillProfileDialog()
         self.ui.setupUi(self)
-
-
 
 class InsertNewRecord(QDialog):
     def __init__(self):
@@ -723,35 +698,6 @@ class InsertNewRecord(QDialog):
             self.message.show()
         finally:
 
-            cur.close()
-            conn.close()
-
-class AutoEntrance:
-    def __init__(self):
-        self.hello = 'Hello amigos!'
-
-    def check_user(self):
-        select = f"SELECT * FROM saveme"
-        try:
-            conn = sqlite3.connect("ph_book1.db")
-        except sqlite3.Error:
-            print("База не доступна")
-            sys.exit(app.exec_())
-        cur = conn.cursor()
-        try:
-            cur.execute(select)
-            row = cur.fetchone()
-            print("row", row)
-            if row == None:
-                print('надо проходить авторизацию!')
-
-            elif row != []:
-                print("Автоматический вход")
-                print(f"Был пароль {row[0]},{row[1]} ")
-                return row
-        except sqlite3.IntegrityError:
-            conn.rollback()
-        finally:
             cur.close()
             conn.close()
 
