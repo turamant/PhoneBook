@@ -236,59 +236,59 @@ class MyForm2(QDialog):
             conn.close()
 
     def SearchRows_1(self):
-        sql = self.sqlBase('А', 'Бя')
+        sql = self.sqlBase('А', 'В')
         self.SearchRows(sql)
     def SearchRows_2(self):
-        sql = self.sqlBase('В', 'Гя')
+        sql = self.sqlBase('В', 'Д')
         self.SearchRows(sql)
 
     def SearchRows_3(self):
-        sql = self.sqlBase('Д', 'Ея')
+        sql = self.sqlBase('Д', 'Ж')
         self.SearchRows(sql)
 
 
     def SearchRows_4(self):
-        sql = self.sqlBase('Ж', 'Йя')
+        sql = self.sqlBase('Ж', 'К')
         self.SearchRows(sql)
 
 
     def SearchRows_5(self):
-        sql = self.sqlBase('К', 'Ля')
+        sql = self.sqlBase('К', 'М')
         self.SearchRows(sql)
 
 
     def SearchRows_6(self):
-        sql = self.sqlBase('М', 'Ня')
+        sql = self.sqlBase('М', 'О')
         self.SearchRows(sql)
 
 
     def SearchRows_7(self):
-        sql = self.sqlBase('О', 'Пя')
+        sql = self.sqlBase('О', 'Р')
         self.SearchRows(sql)
 
 
     def SearchRows_8(self):
-        sql = self.sqlBase('Р', 'Ся')
+        sql = self.sqlBase('Р', 'Т')
         self.SearchRows(sql)
 
 
     def SearchRows_9(self):
-        sql = self.sqlBase('Т', 'Уя')
+        sql = self.sqlBase('Т', 'Ф')
         self.SearchRows(sql)
 
 
     def SearchRows_10(self):
-        sql = self.sqlBase('Ф', 'Хя')
+        sql = self.sqlBase('Ф', 'Ц')
         self.SearchRows(sql)
 
 
     def SearchRows_11(self):
-        sql = self.sqlBase('Ц', 'Щя')
+        sql = self.sqlBase('Ц', 'Ъ')
         self.SearchRows(sql)
 
 
     def SearchRows_12(self):
-        sql = self.sqlBase('Ъ', 'Эя')
+        sql = self.sqlBase('Ъ', 'Ю')
         self.SearchRows(sql)
 
 
