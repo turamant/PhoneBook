@@ -1,6 +1,3 @@
-
-
-import concurrent.futures
 import sys
 
 from PyQt5 import QtWidgets
