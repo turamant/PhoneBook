@@ -9,12 +9,14 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QTableWidgetItem
 
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(1176, 797)
+
         self.widget = QtWidgets.QWidget(Dialog)
         self.widget.setGeometry(QtCore.QRect(0, 0, 1181, 801))
         self.widget.setMinimumSize(QtCore.QSize(831, 731))
@@ -81,6 +83,8 @@ class Ui_Dialog(object):
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
+
+
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
@@ -95,3 +99,4 @@ class Ui_Dialog(object):
         self.echoPasswordCheckBox.setText(_translate("Dialog", "Показать пароль"))
         self.forgotPasswordPushButton.setText(_translate("Dialog", "Забыли пароль?"))
         self.changePasswordPushButton.setText(_translate("Dialog", "Сменить пароль"))
+

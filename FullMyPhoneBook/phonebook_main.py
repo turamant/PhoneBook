@@ -24,6 +24,13 @@ class MyFormUser(QDialog):
         self.ui = Ui_TableDialog()
         self.ui.setupUi(self)
 
+        #self.ui.tableWidget.setItem(1, 1, QTableWidgetItem(4))
+        self.ui.tableWidget.setColumnWidth(0, 200)
+        self.ui.tableWidget.setColumnWidth(1, 200)
+        self.ui.tableWidget.setColumnWidth(2, 100)
+        self.ui.tableWidget.setColumnWidth(3, 100)
+        self.ui.tableWidget.setColumnWidth(4, 100)
+
         self.ui.ABsearchPushButton_1.clicked.connect(self.SearchRows_1)
         self.ui.VGsearchPushButton_2.clicked.connect(self.SearchRows_2)
         self.ui.DEsearchPushButton_3.clicked.connect(self.SearchRows_3)
@@ -38,6 +45,34 @@ class MyFormUser(QDialog):
         self.ui.IEsearchPushButton_12.clicked.connect(self.SearchRows_12)
         self.ui.YouYjasearchPushButton_13.clicked.connect(self.SearchRows_13)
         self.ui.AZsearchPushButton_14.clicked.connect(self.SearchRows_14)
+
+        self.load_data()
+
+
+
+    def load_data(self):
+        sqlStatement = f"SELECT * from phonebook"
+        conn = sqlite3.connect("ph_book1.db")
+        cur = conn.cursor()
+        cur.execute(sqlStatement)
+        rows = cur.fetchall()
+
+        row = 0
+        self.ui.tableWidget.setRowCount(len(rows))
+        print(rows)
+
+        for person in rows:
+            print(person)
+            self.ui.tableWidget.setItem(row, 0, QtWidgets.QTableWidgetItem(person[0]))
+            self.ui.tableWidget.setItem(row, 1, QtWidgets.QTableWidgetItem(person[1]))
+            self.ui.tableWidget.setItem(row, 2, QtWidgets.QTableWidgetItem(person[2]))
+            self.ui.tableWidget.setItem(row, 3, QtWidgets.QTableWidgetItem(person[3]))
+            self.ui.tableWidget.setItem(row, 4, QtWidgets.QTableWidgetItem(person[4]))
+            row += 1
+
+
+        cur.close()
+        conn.close()
 
     def gotoInsertNewRecord(self):
         insertnewrecord = InsertNewRecord()
@@ -116,7 +151,7 @@ class MyFormUser(QDialog):
         for tuple in rows:
             colNo = 0
             for columns in tuple:
-                self.ui.selectTableWidget.setItem(rowNo, colNo, QTableWidgetItem(columns))
+                self.ui.tableWidget.setItem(rowNo, colNo, QTableWidgetItem(columns))
                 colNo += 1
             rowNo += 1
         print("Всего строк", rowNo)
@@ -134,15 +169,12 @@ class MyFormUser(QDialog):
             self.fillTable(yes_no_fake=True)
             self.fillTable(yes_no_fake=False, rows=rows)
         except sqlite3.IntegrityError:
-            self.ui.selectTableWidget.clear()
+            self.ui.tableWidget.clear()
             self.message.setInformativeText("Ошибка доступа к таблице")
             self.message.show()
         finally:
             cur.close()
             conn.close()
-
-
-
 
 class InheretensFormTableAdmin(MyFormUser):
     def __init__(self):
@@ -167,6 +199,29 @@ class InheretensFormTableAdmin(MyFormUser):
         self.ui.addPushButton.clicked.connect(self.insertNewRecord)
         self.ui.updatePushButton.clicked.connect(self.updateRecord)
         self.ui.deletePushButton.clicked.connect(self.deleteRecord)
+
+        self.ui.nameLineEdit.setText("Имя")
+        self.ui.nomerLineEdit.setText("Жопка")
+        self.ui.yearLineEdit.setText("Спать пора")
+        self.ui.monthLineEdit.setText("КЕт на КУТАК")
+        self.ui.dayLineEdit.setText("Сосамба")
+
+        self.ui.tableWidget.setColumnWidth(0, 200)
+        self.ui.tableWidget.setColumnWidth(1, 200)
+        self.ui.tableWidget.setColumnWidth(2, 100)
+        self.ui.tableWidget.setColumnWidth(3, 100)
+        self.ui.tableWidget.setColumnWidth(4, 100)
+
+        self.load_data()
+        #self.cellClicked.connect(self.cellClick)  # установить обработчик щелча мыши в таблице
+
+    # обработка щелчка мыши по таблице
+    def cellClick(self, row, col):  # row - номер строки, col - номер столбца
+        self.ui.nameLineEdit.setText(self.item(row, 0).text().strip())
+        self.ui.nomerLineEdit.setText(self.item(row, 1).text().strip())
+        self.ui.yearLineEdit.setText(self.item(row, 2).text().strip())
+        self.ui.monthLineEdit.setText(self.item(row, 3).text().strip())
+        self.ui.dayLineEdit.setText(self.item(row, 4).text().strip())
 
     def insertNewRecord(self):
         name = self.ui.nameLineEdit.text().capitalize()
@@ -204,6 +259,7 @@ class InheretensFormTableAdmin(MyFormUser):
         month = self.ui.monthLineEdit.text()
         year = self.ui.yearLineEdit.text()
         query = f"SELECT * from phonebook where name='{name}'"
+
         query_update = f"UPDATE phonebook SET nomer='{nomer}', day='{day}'," \
                        f" month='{month}', year='{year}' WHERE name='{name}'"
 
@@ -219,7 +275,8 @@ class InheretensFormTableAdmin(MyFormUser):
             print("Нет такого ID  в таблице")
         else:
             print("Есть такая информайия о продукте с ID %d :")
-
+            nomer = row[1]
+            print(nomer)
         cur.execute(query_update)
         cur.close()
         conn.commit()

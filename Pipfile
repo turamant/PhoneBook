@@ -12,6 +12,7 @@ pyqt6 = "*"
 qstring = "*"
 pyqt5-stubs = "==5.15.2.0"
 psycopg2 = "*"
+pyside2 = "*"
 
 [dev-packages]
 

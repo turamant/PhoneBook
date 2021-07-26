@@ -16,42 +16,7 @@ def createConnection():
     print ("Нет ошибок", db.lastError().text())
     print("База подключена!")
     return True
-'''
-class Dialog(QDialog):
-    def __init__(self):
-        super(Dialog, self).__init__()
-        self.title = 'Окно авторизации'
-        self.left = 10
-        self.top = 10
-        self.width = 320
-        self.height = 100
-        self.initUI()
 
-    def initUI(self):
-
-        layout = QGridLayout()
-        self.setLayout(layout)
-        self.setWindowTitle(self.title)
-        self.setGeometry(self.left, self.top, self.width, self.height)
-        label = QLabel("Вам есть 18 лет ?")
-        layout.addWidget(label, 0, 0)
-        buttonbox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
-        layout.addWidget(buttonbox)
-        buttonbox.accepted.connect(self.accept)
-        buttonbox.rejected.connect(self.reject)
-        self.show()
-
-    def accept(self):
-        print("Press OK!")
-        self.close()
-
-
-    def reject(self):
-        print("Подрастёшь заходи!")
-        return True
-
-
-'''
 class TableEditor(QDialog):
     def __init__(self, tableName, parent=None):
         super(TableEditor, self).__init__(parent)
