@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_TableDialog2(object):
     def setupUi(self, TableDialog2):
         TableDialog2.setObjectName("TableDialog2")
-        TableDialog2.resize(1180, 822)
+        TableDialog2.resize(1197, 840)
         self.HeadLabel = QtWidgets.QLabel(TableDialog2)
         self.HeadLabel.setGeometry(QtCore.QRect(950, 20, 121, 21))
         self.HeadLabel.setStyleSheet("font: 14pt \"Cantarell\";")
@@ -24,7 +24,7 @@ class Ui_TableDialog2(object):
         self.ABsearchPushButton_1.setStyleSheet("selection-background-color: rgb(255, 7, 32);")
         self.ABsearchPushButton_1.setObjectName("ABsearchPushButton_1")
         self.nameLineEdit = QtWidgets.QLineEdit(TableDialog2)
-        self.nameLineEdit.setGeometry(QtCore.QRect(920, 120, 221, 36))
+        self.nameLineEdit.setGeometry(QtCore.QRect(950, 120, 221, 36))
         self.nameLineEdit.setObjectName("nameLineEdit")
         self.familyLabel = QtWidgets.QLabel(TableDialog2)
         self.familyLabel.setGeometry(QtCore.QRect(800, 710, 171, 41))
@@ -46,7 +46,7 @@ class Ui_TableDialog2(object):
         item = QtWidgets.QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(4, item)
         self.nomerLineEdit = QtWidgets.QLineEdit(TableDialog2)
-        self.nomerLineEdit.setGeometry(QtCore.QRect(920, 170, 221, 36))
+        self.nomerLineEdit.setGeometry(QtCore.QRect(950, 170, 221, 36))
         self.nomerLineEdit.setObjectName("nomerLineEdit")
         self.OPsearchPushButton_7 = QtWidgets.QPushButton(TableDialog2)
         self.OPsearchPushButton_7.setGeometry(QtCore.QRect(20, 260, 113, 36))
@@ -97,18 +97,19 @@ class Ui_TableDialog2(object):
         self.IEsearchPushButton_12.setStyleSheet("selection-background-color: rgb(255, 7, 32);")
         self.IEsearchPushButton_12.setObjectName("IEsearchPushButton_12")
         self.addPushButton = QtWidgets.QPushButton(TableDialog2)
-        self.addPushButton.setGeometry(QtCore.QRect(900, 380, 261, 36))
+        self.addPushButton.setGeometry(QtCore.QRect(890, 390, 261, 36))
         self.addPushButton.setStyleSheet("font: 10pt \"Cantarell\";\n"
+"background-color: rgb(15, 159, 7);\n"
 "color: rgb(0, 85, 0);")
         self.addPushButton.setObjectName("addPushButton")
         self.dayLineEdit = QtWidgets.QLineEdit(TableDialog2)
-        self.dayLineEdit.setGeometry(QtCore.QRect(920, 220, 221, 36))
+        self.dayLineEdit.setGeometry(QtCore.QRect(950, 320, 221, 36))
         self.dayLineEdit.setObjectName("dayLineEdit")
         self.monthLineEdit = QtWidgets.QLineEdit(TableDialog2)
-        self.monthLineEdit.setGeometry(QtCore.QRect(920, 270, 221, 36))
+        self.monthLineEdit.setGeometry(QtCore.QRect(950, 270, 221, 36))
         self.monthLineEdit.setObjectName("monthLineEdit")
         self.yearLineEdit = QtWidgets.QLineEdit(TableDialog2)
-        self.yearLineEdit.setGeometry(QtCore.QRect(920, 320, 221, 36))
+        self.yearLineEdit.setGeometry(QtCore.QRect(950, 220, 221, 36))
         self.yearLineEdit.setObjectName("yearLineEdit")
         self.label = QtWidgets.QLabel(TableDialog2)
         self.label.setGeometry(QtCore.QRect(980, 50, 131, 21))
@@ -121,15 +122,48 @@ class Ui_TableDialog2(object):
         self.AZsearchPushButton_14.setStyleSheet("selection-background-color: rgb(255, 7, 32);")
         self.AZsearchPushButton_14.setObjectName("AZsearchPushButton_14")
         self.updatePushButton = QtWidgets.QPushButton(TableDialog2)
-        self.updatePushButton.setGeometry(QtCore.QRect(900, 420, 261, 36))
+        self.updatePushButton.setGeometry(QtCore.QRect(890, 430, 261, 36))
         self.updatePushButton.setStyleSheet("font: 10pt \"Cantarell\";\n"
+"background-color: rgb(255, 238, 51);\n"
 "color: rgb(0, 85, 0);")
         self.updatePushButton.setObjectName("updatePushButton")
         self.deletePushButton = QtWidgets.QPushButton(TableDialog2)
-        self.deletePushButton.setGeometry(QtCore.QRect(900, 460, 261, 36))
+        self.deletePushButton.setGeometry(QtCore.QRect(890, 470, 261, 36))
         self.deletePushButton.setStyleSheet("font: 10pt \"Cantarell\";\n"
+"background-color: rgb(255, 22, 5);\n"
 "color: rgb(0, 85, 0);")
         self.deletePushButton.setObjectName("deletePushButton")
+        self.nameLabel_2 = QtWidgets.QLabel(TableDialog2)
+        self.nameLabel_2.setGeometry(QtCore.QRect(850, 130, 81, 21))
+        self.nameLabel_2.setStyleSheet("font: 10pt \"Cantarell\";\n"
+"color: rgb(23, 35, 255);")
+        self.nameLabel_2.setObjectName("nameLabel_2")
+        self.nomerLabel_3 = QtWidgets.QLabel(TableDialog2)
+        self.nomerLabel_3.setGeometry(QtCore.QRect(850, 180, 81, 21))
+        self.nomerLabel_3.setStyleSheet("font: 10pt \"Cantarell\";\n"
+"color: rgb(31, 23, 255);")
+        self.nomerLabel_3.setObjectName("nomerLabel_3")
+        self.dayLabel_4 = QtWidgets.QLabel(TableDialog2)
+        self.dayLabel_4.setGeometry(QtCore.QRect(850, 330, 81, 21))
+        self.dayLabel_4.setStyleSheet("font: 10pt \"Cantarell\";\n"
+"color: rgb(39, 24, 255);")
+        self.dayLabel_4.setObjectName("dayLabel_4")
+        self.monthLabel_5 = QtWidgets.QLabel(TableDialog2)
+        self.monthLabel_5.setGeometry(QtCore.QRect(850, 280, 81, 21))
+        self.monthLabel_5.setStyleSheet("color: rgb(10, 10, 255);\n"
+"font: 10pt \"Cantarell\";")
+        self.monthLabel_5.setObjectName("monthLabel_5")
+        self.yearLabel_6 = QtWidgets.QLabel(TableDialog2)
+        self.yearLabel_6.setGeometry(QtCore.QRect(850, 230, 81, 31))
+        self.yearLabel_6.setStyleSheet("color: rgb(39, 19, 255);\n"
+"font: 10pt \"Cantarell\";")
+        self.yearLabel_6.setObjectName("yearLabel_6")
+        self.ALLsearchPushButton_16 = QtWidgets.QPushButton(TableDialog2)
+        self.ALLsearchPushButton_16.setGeometry(QtCore.QRect(20, 730, 101, 36))
+        self.ALLsearchPushButton_16.setStyleSheet("selection-background-color: rgb(255, 7, 32);\n"
+"background-color: rgb(255, 100, 10);\n"
+"font: 8pt \"Cantarell\";")
+        self.ALLsearchPushButton_16.setObjectName("ALLsearchPushButton_16")
 
         self.retranslateUi(TableDialog2)
         QtCore.QMetaObject.connectSlotsByName(TableDialog2)
@@ -170,6 +204,12 @@ class Ui_TableDialog2(object):
         self.AZsearchPushButton_14.setText(_translate("TableDialog2", "A-Z"))
         self.updatePushButton.setText(_translate("TableDialog2", "Изменить данные контакта"))
         self.deletePushButton.setText(_translate("TableDialog2", "Удалить контакт"))
+        self.nameLabel_2.setText(_translate("TableDialog2", "Фамилия"))
+        self.nomerLabel_3.setText(_translate("TableDialog2", "Телефон"))
+        self.dayLabel_4.setText(_translate("TableDialog2", "День"))
+        self.monthLabel_5.setText(_translate("TableDialog2", "Месяц"))
+        self.yearLabel_6.setText(_translate("TableDialog2", "Год"))
+        self.ALLsearchPushButton_16.setText(_translate("TableDialog2", "Все контакты"))
 
 
 if __name__ == "__main__":

@@ -10329,6 +10329,24 @@ font: 12pt &quot;Cantarell&quot;;</string>
     <string/>
    </property>
   </widget>
+  <widget class="QPushButton" name="ALLsearchPushButton_16">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>730</y>
+     <width>101</width>
+     <height>36</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">selection-background-color: rgb(255, 7, 32);
+background-color: rgb(255, 100, 10);
+font: 8pt &quot;Cantarell&quot;;</string>
+   </property>
+   <property name="text">
+    <string>Все контакты</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

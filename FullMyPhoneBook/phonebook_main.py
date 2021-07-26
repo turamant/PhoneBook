@@ -45,6 +45,7 @@ class MyFormUser(QDialog):
         self.ui.IEsearchPushButton_12.clicked.connect(self.SearchRows_12)
         self.ui.YouYjasearchPushButton_13.clicked.connect(self.SearchRows_13)
         self.ui.AZsearchPushButton_14.clicked.connect(self.SearchRows_14)
+        self.ui.ALLsearchPushButton_16.clicked.connect(self.load_data)
 
         self.load_data()
 
@@ -141,21 +142,6 @@ class MyFormUser(QDialog):
               f" '{a}' AND name <= '{b}'  ORDER BY name ASC"
         return sql
 
-    def fillTable(self, yes_no_fake, rows=('', '', '', '', '')):
-        """ Обнуляет предудущие данные и заполняет таблицу новыми данными
-            из Базы данных,
-        """
-        if yes_no_fake == True:
-            rows = [2000 * rows]
-        rowNo = 0
-        for tuple in rows:
-            colNo = 0
-            for columns in tuple:
-                self.ui.tableWidget.setItem(rowNo, colNo, QTableWidgetItem(columns))
-                colNo += 1
-            rowNo += 1
-        print("Всего строк", rowNo)
-
     def SearchRows(self, sqlStatement):
         try:
             conn = sqlite3.connect("ph_book1.db")
@@ -166,8 +152,18 @@ class MyFormUser(QDialog):
         try:
             cur.execute(sqlStatement)
             rows = cur.fetchall()
-            self.fillTable(yes_no_fake=True)
-            self.fillTable(yes_no_fake=False, rows=rows)
+            self.ui.tableWidget.clear()
+            name_columns = ['Фамилия', 'Телефон', 'Год', 'Месяц', 'День']
+            self.ui.tableWidget.setHorizontalHeaderLabels(name_columns)
+            self.ui.tableWidget.setRowCount(len(rows))
+            rowNo = 0
+            for tuple in rows:
+                colNo = 0
+                for columns in tuple:
+                    self.ui.tableWidget.setItem(rowNo, colNo, QTableWidgetItem(columns))
+                    colNo += 1
+                rowNo += 1
+            print("Всего строк", rowNo)
         except sqlite3.IntegrityError:
             self.ui.tableWidget.clear()
             self.message.setInformativeText("Ошибка доступа к таблице")
@@ -195,16 +191,19 @@ class InheretensFormTableAdmin(MyFormUser):
         self.ui.IEsearchPushButton_12.clicked.connect(self.SearchRows_12)
         self.ui.YouYjasearchPushButton_13.clicked.connect(self.SearchRows_13)
         self.ui.AZsearchPushButton_14.clicked.connect(self.SearchRows_14)
+        self.ui.ALLsearchPushButton_16.clicked.connect(self.load_data)
+
 
         self.ui.addPushButton.clicked.connect(self.insertNewRecord)
         self.ui.updatePushButton.clicked.connect(self.updateRecord)
         self.ui.deletePushButton.clicked.connect(self.deleteRecord)
 
-        self.ui.nameLineEdit.setText("Имя")
-        self.ui.nomerLineEdit.setText("Жопка")
-        self.ui.yearLineEdit.setText("Спать пора")
-        self.ui.monthLineEdit.setText("КЕт на КУТАК")
-        self.ui.dayLineEdit.setText("Сосамба")
+        self.list_line_edit = [self.ui.nameLineEdit,
+                               self.ui.nomerLineEdit,
+                               self.ui.yearLineEdit,
+                               self.ui.monthLineEdit,
+                               self.ui.dayLineEdit,
+                               ]
 
         self.ui.tableWidget.setColumnWidth(0, 200)
         self.ui.tableWidget.setColumnWidth(1, 200)
@@ -213,15 +212,56 @@ class InheretensFormTableAdmin(MyFormUser):
         self.ui.tableWidget.setColumnWidth(4, 100)
 
         self.load_data()
-        #self.cellClicked.connect(self.cellClick)  # установить обработчик щелча мыши в таблице
+        self.ui.tableWidget.cellClicked.connect(self.cellClick)  # установить обработчик щелча мыши в таблице
+
 
     # обработка щелчка мыши по таблице
     def cellClick(self, row, col):  # row - номер строки, col - номер столбца
-        self.ui.nameLineEdit.setText(self.item(row, 0).text().strip())
-        self.ui.nomerLineEdit.setText(self.item(row, 1).text().strip())
-        self.ui.yearLineEdit.setText(self.item(row, 2).text().strip())
-        self.ui.monthLineEdit.setText(self.item(row, 3).text().strip())
-        self.ui.dayLineEdit.setText(self.item(row, 4).text().strip())
+        self.ui.nameLineEdit.setText(self.ui.tableWidget.item(row, 0).text().strip())
+        self.ui.nomerLineEdit.setText(self.ui.tableWidget.item(row, 1).text().strip())
+        self.ui.yearLineEdit.setText(self.ui.tableWidget.item(row, 2).text().strip())
+        self.ui.monthLineEdit.setText(self.ui.tableWidget.item(row, 3).text().strip())
+        self.ui.dayLineEdit.setText(self.ui.tableWidget.item(row, 4).text().strip())
+
+    def editLineClear(self):
+        """
+        Обнуляет поля LineEdit (4 шт)
+        :return:
+        """
+        for line in self.list_line_edit:
+            line.clear()
+
+    def SearchRows(self, sqlStatement):
+        try:
+            conn = sqlite3.connect("ph_book1.db")
+        except sqlite3.Error:
+            print("База не доступна")
+            sys.exit(app.exec_())
+        cur = conn.cursor()
+        try:
+            cur.execute(sqlStatement)
+            rows = cur.fetchall()
+
+            self.ui.tableWidget.clear() #обновили таблицу
+            self.editLineClear() # обнулили поля LineEdit
+            name_columns = ['Фамилия', 'Телефон', 'Год', 'Месяц', 'День']
+            self.ui.tableWidget.setHorizontalHeaderLabels(name_columns)
+            self.ui.tableWidget.setRowCount(len(rows))
+            rowNo = 0
+            for tuple in rows:
+                colNo = 0
+                for columns in tuple:
+                    self.ui.tableWidget.setItem(rowNo, colNo, QTableWidgetItem(columns))
+                    colNo += 1
+                rowNo += 1
+            print("Всего строк", rowNo)
+        except sqlite3.IntegrityError:
+            self.ui.tableWidget.clear()
+            self.message.setInformativeText("Ошибка доступа к таблице")
+            self.message.show()
+        finally:
+            cur.close()
+            conn.close()
 
     def insertNewRecord(self):
         name = self.ui.nameLineEdit.text().capitalize()

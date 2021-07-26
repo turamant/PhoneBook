@@ -100,6 +100,12 @@ class Ui_TableDialog(object):
 "font: 12pt \"Cantarell\";")
         self.label.setText("")
         self.label.setObjectName("label")
+        self.ALLsearchPushButton_16 = QtWidgets.QPushButton(TableDialog)
+        self.ALLsearchPushButton_16.setGeometry(QtCore.QRect(20, 730, 101, 36))
+        self.ALLsearchPushButton_16.setStyleSheet("selection-background-color: rgb(255, 7, 32);\n"
+"background-color: rgb(255, 100, 10);\n"
+"font: 8pt \"Cantarell\";")
+        self.ALLsearchPushButton_16.setObjectName("ALLsearchPushButton_16")
 
         self.retranslateUi(TableDialog)
         QtCore.QMetaObject.connectSlotsByName(TableDialog)
@@ -132,6 +138,7 @@ class Ui_TableDialog(object):
         self.YouYjasearchPushButton_13.setText(_translate("TableDialog", "ЮЯ"))
         self.IEsearchPushButton_12.setText(_translate("TableDialog", "ЪЫЬЭ"))
         self.AZsearchPushButton_14.setText(_translate("TableDialog", "A-Z"))
+        self.ALLsearchPushButton_16.setText(_translate("TableDialog", "Все контакты"))
 
 
 if __name__ == "__main__":
