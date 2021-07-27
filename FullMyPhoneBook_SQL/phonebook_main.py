@@ -2,75 +2,47 @@ import sys
 
 
 from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QDialog, QApplication, QWidget, QTableWidgetItem, QMessageBox
+from PyQt5.QtWidgets import QDialog, QApplication, QTableWidgetItem, QMessageBox
 
-from tableview import Ui_TableDialog
+from Ui.tableview import Ui_TableDialog
 
-from tableview2 import Ui_TableDialog2
-from welcomescreen import Ui_Dialog
-from signup import Ui_SignUpDialog
+from Ui.tableview2 import Ui_TableDialog2
+from Ui.welcomescreen import Ui_Dialog
+from Ui.signup import Ui_SignUpDialog
 from fillprofile import Ui_fillProfileDialog
-from recoveryPassword import Ui_RecoveryPasswordDialog
-from renewPassword import Ui_RenewPasswordDialog
+from Ui.recoveryPassword import Ui_RecoveryPasswordDialog
+from Ui.renewPassword import Ui_RenewPasswordDialog
 from insertnewrecord import Ui_InsertDialog
-from birthdayonweek import Ui_BirthDayTableDialog
+from Ui.birthdayonweek import Ui_BirthDayTableDialog
 
 import sqlite3
 
 saveuser = ""
 savepassword = ""
 
-class MyFormUser(QDialog):
+
+class MessageBox(QMessageBox):
+    def __init__(self):
+        QMessageBox.__init__(self)
+        self.setText("This is a MessageBox, typically used to convey short messages to the user.")
+        #self.setInformativeText("Informative text provides more space to explain the message ")
+        #self.setIcon(QMessageBox.Information)
+        self.setStandardButtons(QMessageBox.Close)
+
+class BaseForm(QDialog):
     def __init__(self):
         super().__init__()
         self.ui = Ui_TableDialog()
         self.ui.setupUi(self)
-
-
-        self.ui.labelUser.setText(saveuser)
-        #self.ui.tableWidget.setItem(1, 1, QTableWidgetItem(4))
-        self.ui.tableWidget.setColumnWidth(0, 200)
-        self.ui.tableWidget.setColumnWidth(1, 200)
-        self.ui.tableWidget.setColumnWidth(2, 100)
-        self.ui.tableWidget.setColumnWidth(3, 100)
-        self.ui.tableWidget.setColumnWidth(4, 100)
-
-        self.ui.ABsearchPushButton_1.clicked.connect(self.SearchRows_1)
-        self.ui.VGsearchPushButton_2.clicked.connect(self.SearchRows_2)
-        self.ui.DEsearchPushButton_3.clicked.connect(self.SearchRows_3)
-        self.ui.GZIIsearchPushButton_4.clicked.connect(self.SearchRows_4)
-        self.ui.KLsearchPushButton_5.clicked.connect(self.SearchRows_5)
-        self.ui.MNsearchPushButton_6.clicked.connect(self.SearchRows_6)
-        self.ui.OPsearchPushButton_7.clicked.connect(self.SearchRows_7)
-        self.ui.RSsearchPushButton_8.clicked.connect(self.SearchRows_8)
-        self.ui.TYsearchPushButton_9.clicked.connect(self.SearchRows_9)
-        self.ui.FHsearchPushButton_10.clicked.connect(self.SearchRows_10)
-        self.ui.ZHSSsearchPushButton_11.clicked.connect(self.SearchRows_11)
-        self.ui.IEsearchPushButton_12.clicked.connect(self.SearchRows_12)
-        self.ui.YouYjasearchPushButton_13.clicked.connect(self.SearchRows_13)
-        self.ui.AZsearchPushButton_14.clicked.connect(self.SearchRows_14)
-        self.ui.ALLsearchPushButton_16.clicked.connect(self.load_data)
-
-        self.ui.cancelPushButton.clicked.connect(self.gotoWelcome)
-
-        self.load_data()
-
-
-
-
-    def gotoWelcome(self):
-        global saveuser, savepassword
-        welcome = WelcomeScreen()
-        widget.addWidget(welcome)
-        widget.setCurrentIndex(widget.currentIndex() + 1)
-        welcome.ui.nameuserLineEdit.setText(saveuser)
-        welcome.ui.passwordLineEdit.setText(savepassword)
-        print("gotowelcome^ ", saveuser, savepassword)
-
+        self.message = QMessageBox()
 
     def load_data(self):
+        """
+        Загрузка данных в таблицу
+        :return:
+        """
         sqlStatement = f"SELECT name, nomer, year, month, day from phonebook ORDER By name"
-        conn = sqlite3.connect("ph_book1.db")
+        conn = sqlite3.connect("DataBase/ph_book1.db")
         cur = conn.cursor()
         cur.execute(sqlStatement)
         rows = cur.fetchall()
@@ -92,62 +64,85 @@ class MyFormUser(QDialog):
         cur.close()
         conn.close()
 
-    def gotoInsertNewRecord(self):
-        insertnewrecord = InsertNewRecord()
-        widget.addWidget(insertnewrecord)
-        widget.setCurrentIndex(widget.currentIndex() + 1)
+    def editLineClear(self):
+        """
+        Обнуляет поля LineEdit (4 шт)
+        :return:
+        """
+        for line in self.list_line_edit:
+            line.clear()
+
 
     def SearchRows_1(self):
+        """
+        Слот - Передает sql в метод выборки SearchRows
+        :return:
+        """
         sql = self.sqlBase('А', 'В')
         self.SearchRows(sql)
+
 
     def SearchRows_2(self):
         sql = self.sqlBase('В', 'Д')
         self.SearchRows(sql)
 
+
+
     def SearchRows_3(self):
         sql = self.sqlBase('Д', 'Ж')
         self.SearchRows(sql)
+
 
     def SearchRows_4(self):
         sql = self.sqlBase('Ж', 'К')
         self.SearchRows(sql)
 
+
     def SearchRows_5(self):
         sql = self.sqlBase('К', 'М')
         self.SearchRows(sql)
+
 
     def SearchRows_6(self):
         sql = self.sqlBase('М', 'О')
         self.SearchRows(sql)
 
+
     def SearchRows_7(self):
         sql = self.sqlBase('О', 'Р')
         self.SearchRows(sql)
+
 
     def SearchRows_8(self):
         sql = self.sqlBase('Р', 'Т')
         self.SearchRows(sql)
 
+
     def SearchRows_9(self):
         sql = self.sqlBase('Т', 'Ф')
         self.SearchRows(sql)
+
 
     def SearchRows_10(self):
         sql = self.sqlBase('Ф', 'Ц')
         self.SearchRows(sql)
 
+
     def SearchRows_11(self):
         sql = self.sqlBase('Ц', 'Ъ')
         self.SearchRows(sql)
+
 
     def SearchRows_12(self):
         sql = self.sqlBase('Ъ', 'Ю')
         self.SearchRows(sql)
 
+
     def SearchRows_13(self):
         sql = self.sqlBase('Ю', 'Яяяя')
         self.SearchRows(sql)
+
+
 
     def SearchRows_14(self):
         sql = self.sqlBase('A', 'zzz')
@@ -157,11 +152,12 @@ class MyFormUser(QDialog):
     def sqlBase(self, a, b):
         sql = f"SELECT name, nomer, year, month, day FROM phonebook WHERE name >=" \
               f" '{a}' AND name <= '{b}'  ORDER BY name ASC"
+        self.editLineClear()  # обнуляет 4 поля LineEdit
         return sql
 
     def SearchRows(self, sqlStatement):
         try:
-            conn = sqlite3.connect("ph_book1.db")
+            conn = sqlite3.connect("DataBase/ph_book1.db")
         except sqlite3.Error:
             print("База не доступна")
             sys.exit(app.exec_())
@@ -169,6 +165,7 @@ class MyFormUser(QDialog):
         try:
             cur.execute(sqlStatement)
             rows = cur.fetchall()
+
             self.ui.tableWidget.clear()
             name_columns = ['Фамилия', 'Телефон', 'Год', 'Месяц', 'День']
             self.ui.tableWidget.setHorizontalHeaderLabels(name_columns)
@@ -189,11 +186,66 @@ class MyFormUser(QDialog):
             cur.close()
             conn.close()
 
+    def gotoWelcome(self):
+        """
+        Переход на главный экран приложения
+        :return:
+        """
+        global saveuser, savepassword
+        welcome = WelcomeScreen()
+        widget.addWidget(welcome)
+        widget.setCurrentIndex(widget.currentIndex() + 1)
+
+        # сохраняем пользователя и пароль в текущей сессии
+        welcome.ui.nameuserLineEdit.setText(saveuser)
+        welcome.ui.passwordLineEdit.setText(savepassword)
+        print("gotowelcome^ ", saveuser, savepassword)
+
+
+
+class MyFormUser(BaseForm):
+    def __init__(self):
+        super().__init__()
+
+        # Кнопки сортировки
+        self.ui.ABsearchPushButton_1.clicked.connect(self.SearchRows_1)
+        self.ui.VGsearchPushButton_2.clicked.connect(self.SearchRows_2)
+        self.ui.DEsearchPushButton_3.clicked.connect(self.SearchRows_3)
+        self.ui.GZIIsearchPushButton_4.clicked.connect(self.SearchRows_4)
+        self.ui.KLsearchPushButton_5.clicked.connect(self.SearchRows_5)
+        self.ui.MNsearchPushButton_6.clicked.connect(self.SearchRows_6)
+        self.ui.OPsearchPushButton_7.clicked.connect(self.SearchRows_7)
+        self.ui.RSsearchPushButton_8.clicked.connect(self.SearchRows_8)
+        self.ui.TYsearchPushButton_9.clicked.connect(self.SearchRows_9)
+        self.ui.FHsearchPushButton_10.clicked.connect(self.SearchRows_10)
+        self.ui.ZHSSsearchPushButton_11.clicked.connect(self.SearchRows_11)
+        self.ui.IEsearchPushButton_12.clicked.connect(self.SearchRows_12)
+        self.ui.YouYjasearchPushButton_13.clicked.connect(self.SearchRows_13)
+        self.ui.AZsearchPushButton_14.clicked.connect(self.SearchRows_14)
+
+        # кнопка загрузки всех данных в главную страницу таблицы
+        self.ui.ALLsearchPushButton_16.clicked.connect(self.load_data)
+
+        self.ui.labelUser.setText(saveuser)
+
+        self.ui.cancelPushButton.clicked.connect(self.gotoWelcome)
+
+        # Ширина колонок таблицы
+        self.ui.tableWidget.setColumnWidth(0, 200)
+        self.ui.tableWidget.setColumnWidth(1, 200)
+        self.ui.tableWidget.setColumnWidth(2, 100)
+        self.ui.tableWidget.setColumnWidth(3, 100)
+        self.ui.tableWidget.setColumnWidth(4, 100)
+
+        self.load_data()
+
+
 class InheretensFormTableAdmin(MyFormUser):
     def __init__(self):
         super().__init__()
         self.ui = Ui_TableDialog2()
         self.ui.setupUi(self)
+
         self.ui.ABsearchPushButton_1.clicked.connect(self.SearchRows_1)
         self.ui.VGsearchPushButton_2.clicked.connect(self.SearchRows_2)
         self.ui.DEsearchPushButton_3.clicked.connect(self.SearchRows_3)
@@ -232,54 +284,31 @@ class InheretensFormTableAdmin(MyFormUser):
         self.load_data()
         self.ui.tableWidget.cellClicked.connect(self.cellClick)  # установить обработчик щелча мыши в таблице
 
-
-    # обработка щелчка мыши по таблице
-    def cellClick(self, row, col):  # row - номер строки, col - номер столбца
+    def cellClick(self, row, col):
+        """
+        обработка щелчка мыши по таблице
+        :param row: номер строки
+        :param col: номер столбца
+        :return:
+        """
         self.ui.nameLineEdit.setText(self.ui.tableWidget.item(row, 0).text().strip())
         self.ui.nomerLineEdit.setText(self.ui.tableWidget.item(row, 1).text().strip())
         self.ui.yearLineEdit.setText(self.ui.tableWidget.item(row, 2).text().strip())
         self.ui.monthLineEdit.setText(self.ui.tableWidget.item(row, 3).text().strip())
         self.ui.dayLineEdit.setText(self.ui.tableWidget.item(row, 4).text().strip())
 
-    def editLineClear(self):
+    def dataBaseOpen(self):
         """
-        Обнуляет поля LineEdit (4 шт)
+        Соединение с базой данных
         :return:
         """
-        for line in self.list_line_edit:
-            line.clear()
-
-    def SearchRows(self, sqlStatement):
         try:
-            conn = sqlite3.connect("ph_book1.db")
+            conn = sqlite3.connect("DataBase/ph_book1.db")
         except sqlite3.Error:
             print("База не доступна")
             sys.exit(app.exec_())
-        cur = conn.cursor()
-        try:
-            cur.execute(sqlStatement)
-            rows = cur.fetchall()
+        return conn
 
-            self.ui.tableWidget.clear() #обновили таблицу
-            self.editLineClear() # обнулили поля LineEdit
-            name_columns = ['Фамилия', 'Телефон', 'Год', 'Месяц', 'День']
-            self.ui.tableWidget.setHorizontalHeaderLabels(name_columns)
-            self.ui.tableWidget.setRowCount(len(rows))
-            rowNo = 0
-            for tuple in rows:
-                colNo = 0
-                for columns in tuple:
-                    self.ui.tableWidget.setItem(rowNo, colNo, QTableWidgetItem(columns))
-                    colNo += 1
-                rowNo += 1
-            print("Всего строк", rowNo)
-        except sqlite3.IntegrityError:
-            self.ui.tableWidget.clear()
-            self.message.setInformativeText("Ошибка доступа к таблице")
-            self.message.show()
-        finally:
-            cur.close()
-            conn.close()
 
     def insertNewRecord(self):
         name = self.ui.nameLineEdit.text().capitalize()
@@ -287,27 +316,21 @@ class InheretensFormTableAdmin(MyFormUser):
         day = self.ui.dayLineEdit.text()
         month = self.ui.monthLineEdit.text()
         year = self.ui.yearLineEdit.text()
-
-        try:
-            conn = sqlite3.connect("ph_book1.db")
-        except sqlite3.Error:
-            print("База не доступна")
-            sys.exit(app.exec_())
+        query = f"INSERT INTO phonebook (name, nomer, day, month, year) VALUES ('{name}', '{nomer}', '{day}','{month}','{year}')"
+        conn = self.dataBaseOpen()
         cur = conn.cursor()
-
         try:
-            query = f"INSERT INTO phonebook (name, nomer, day, month, year) VALUES ('{name}', '{nomer}', '{day}','{month}','{year}')"
             cur.execute(query)
             conn.commit()
+            self.editLineClear()
             print("Добавлена успешно!")
-            # self.gotoMyForm2()
+            self.load_data()
         except sqlite3.IntegrityError:
             conn.rollback()
+            self.message.setInformativeText("Произошла ошибка доступа")
+            self.message.show()
             print("Произошла ошибка доступа")
-
         finally:
-
-            cur.close()
             conn.close()
 
     def updateRecord(self):
@@ -317,50 +340,56 @@ class InheretensFormTableAdmin(MyFormUser):
         month = self.ui.monthLineEdit.text()
         year = self.ui.yearLineEdit.text()
         query = f"SELECT * from phonebook where name='{name}'"
-
-        query_update = f"UPDATE phonebook SET nomer='{nomer}', day='{day}'," \
-                       f" month='{month}', year='{year}' WHERE name='{name}'"
-
-        try:
-            conn = sqlite3.connect("ph_book1.db")
-        except sqlite3.Error:
-            print("База не доступна")
-            sys.exit(app.exec_())
+        conn = self.dataBaseOpen()
         cur = conn.cursor()
         cur.execute(query)
         row = cur.fetchone()
-        if row == None:
-            print("Нет такого ID  в таблице")
-        else:
-            print("Есть такая информайия о продукте с ID %d :")
-            nomer = row[1]
-            print(nomer)
-        cur.execute(query_update)
-        cur.close()
-        conn.commit()
-        print("Изменения проведены успешно для ID: %d")
-        conn.close()
+        try:
+            if row == None:
+                print("Нет такого ID  в таблице")
+            else:
+                print("Есть такая информайия о продукте с ID %d :")
+                nomer = row[1]
+                print(nomer)
+            query_update = f"UPDATE phonebook SET nomer='{nomer}', day='{day}'," \
+                           f" month='{month}', year='{year}' WHERE name='{name}'"
+            cur.execute(query_update)
+            conn.commit()
+            self.editLineClear()
+            self.load_data()
+            print("Изменения проведены успешно для ID: %d")
+        except sqlite3.IntegrityError:
+            conn.rollback()
+            self.message.setInformativeText("Добавлена успешно")
+            self.message.show()
+            print("Произошла ошибка доступа")
+        finally:
+            conn.close()
 
     def deleteRecord(self):
         name = self.ui.nameLineEdit.text()
         query = f"SELECT * FROM phonebook WHERE name='{name}'"
-        qyery_delete = f"DELETE from phonebook WHERE name='{name}'"
-        try:
-            conn = sqlite3.connect("ph_book1.db")
-        except sqlite3.Error:
-            print("База не доступна")
-            sys.exit(app.exec_())
+        query_delete = f"DELETE from phonebook WHERE name='{name}'"
+        conn = self.dataBaseOpen()
         cur = conn.cursor()
-        cur.execute(query)
-        row = cur.fetchone()
-        if row == None:
-            print("Нет такого контакта в таблице")
-        else:
-            print("Есть такая информайия о контакте")
-            cur.execute(qyery_delete)
-            print("Контакт удален!")
-            cur.close()
-            conn.commit()
+        try:
+            cur.execute(query)
+            row = cur.fetchone()
+            if row == None:
+                print("Нет такого контакта в таблице")
+            else:
+                print("Есть такая информайия о контакте")
+                cur.execute(query_delete)
+                print("Контакт удален!")
+                conn.commit()
+                self.editLineClear()
+                self.load_data()
+        except sqlite3.IntegrityError:
+            conn.rollback()
+            self.message.setInformativeText("Добавлена успешно")
+            self.message.show()
+            print("Произошла ошибка доступа")
+        finally:
             conn.close()
 
 
@@ -409,7 +438,7 @@ class WelcomeScreen(QDialog):
         password = self.ui.passwordLineEdit.text()
         query = f"INSERT INTO saveme (email, password) VALUES ('{user}', '{password}')"
         try:
-            conn = sqlite3.connect("ph_book1.db")
+            conn = sqlite3.connect("DataBase/ph_book1.db")
         except sqlite3.Error:
             print("База не доступна")
             sys.exit(app.exec_())
@@ -447,7 +476,7 @@ class WelcomeScreen(QDialog):
             self.message.show()
         else:
             try:
-                conn = sqlite3.connect("ph_book1.db")
+                conn = sqlite3.connect("DataBase/ph_book1.db")
             except sqlite3.Error:
                 print("База не доступна")
                 sys.exit(app.exec_())
@@ -541,7 +570,7 @@ class ChangePassword(QDialog):
         selectStament  = "SELECT email, password FROM users Where email like '" + self.ui.emailField.text() +\
                 "'and password like'" + self.ui.oldPasswordField.text()+"'"
         try:
-            conn = sqlite3.connect("ph_book1.db")
+            conn = sqlite3.connect("DataBase/ph_book1.db")
         except sqlite3.Error:
             print("база не доступна")
             sys.exit(app.exec_())
@@ -589,7 +618,7 @@ class RecoveryPassword(QDialog):
         from email.mime.multipart import MIMEMultipart
 
         login = "viktoraskvart@yandex.ru"
-        password = ".........."
+        password = "caSDqhHt9sk7TVG"
         url = "smtp.yandex.ru"
         toaddr = "viktoraskvart@yandex.ru"
 
@@ -622,7 +651,7 @@ class RecoveryPassword(QDialog):
         select = 'SELECT * FROM users WHERE email =\'' + user + "\'"
 
         try:
-            conn = sqlite3.connect("ph_book1.db")
+            conn = sqlite3.connect("DataBase/ph_book1.db")
         except sqlite3.Error:
             print("База не доступна")
             sys.exit(app.exec_())
@@ -700,7 +729,7 @@ class CreateAccScreen(QDialog):
 
         else:
             try:
-                conn = sqlite3.connect("ph_book1.db")
+                conn = sqlite3.connect("DataBase/ph_book1.db")
             except sqlite3.Error:
                 print("База не доступна")
                 sys.exit(app.exec_())
@@ -762,7 +791,7 @@ class InsertNewRecord(QDialog):
 
 
         try:
-            conn = sqlite3.connect("ph_book1.db")
+            conn = sqlite3.connect("DataBase/ph_book1.db")
         except sqlite3.Error:
             print("База не доступна")
             sys.exit(app.exec_())
@@ -819,7 +848,7 @@ class BirthDayOnWeek(QDialog):
                        f"month={month} and day BETWEEN {day} and {yeap} ORDER BY day"
 
 
-        conn = sqlite3.connect("ph_book1.db")
+        conn = sqlite3.connect("DataBase/ph_book1.db")
         cur = conn.cursor()
         cur.execute(sqlStatement)
         rows = cur.fetchall()
