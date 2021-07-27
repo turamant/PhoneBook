@@ -9,14 +9,12 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QTableWidgetItem
 
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(1176, 797)
-
+        Dialog.resize(1178, 798)
         self.widget = QtWidgets.QWidget(Dialog)
         self.widget.setGeometry(QtCore.QRect(0, 0, 1181, 801))
         self.widget.setMinimumSize(QtCore.QSize(831, 731))
@@ -79,11 +77,14 @@ class Ui_Dialog(object):
 "background-color: rgb(235, 235, 235);\n"
 "border:0px;")
         self.changePasswordPushButton.setObjectName("changePasswordPushButton")
+        self.birthDayPushButtn = QtWidgets.QPushButton(self.widget)
+        self.birthDayPushButtn.setGeometry(QtCore.QRect(82, 640, 281, 36))
+        self.birthDayPushButtn.setStyleSheet("color: rgb(255, 80, 21);\n"
+"font: 10pt \"Cantarell\";")
+        self.birthDayPushButtn.setObjectName("birthDayPushButtn")
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
-
-
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
@@ -91,7 +92,7 @@ class Ui_Dialog(object):
         self.labelWelcom.setText(_translate("Dialog", "Окно авторизации"))
         self.loginPushButton.setText(_translate("Dialog", "Войти"))
         self.signupPushButton.setText(_translate("Dialog", "Регистрация"))
-        self.cancelPushButton.setText(_translate("Dialog", "Отмена"))
+        self.cancelPushButton.setText(_translate("Dialog", "Выход"))
         self.nameuserLineEdit.setPlaceholderText(_translate("Dialog", "   Имя пользователя"))
         self.passwordLineEdit.setWhatsThis(_translate("Dialog", "<html><head/><body><p>sdefesrgvesrgvegrvevgre</p><p>vrbge</p></body></html>"))
         self.passwordLineEdit.setPlaceholderText(_translate("Dialog", "   Пароль"))
@@ -99,4 +100,14 @@ class Ui_Dialog(object):
         self.echoPasswordCheckBox.setText(_translate("Dialog", "Показать пароль"))
         self.forgotPasswordPushButton.setText(_translate("Dialog", "Забыли пароль?"))
         self.changePasswordPushButton.setText(_translate("Dialog", "Сменить пароль"))
+        self.birthDayPushButtn.setText(_translate("Dialog", "Дни рождения в этом месяце"))
 
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    Dialog = QtWidgets.QDialog()
+    ui = Ui_Dialog()
+    ui.setupUi(Dialog)
+    Dialog.show()
+    sys.exit(app.exec_())

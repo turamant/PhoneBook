@@ -16,7 +16,7 @@ class Ui_TableDialog(object):
         TableDialog.setObjectName("TableDialog")
         TableDialog.resize(1180, 822)
         self.HeadLabel = QtWidgets.QLabel(TableDialog)
-        self.HeadLabel.setGeometry(QtCore.QRect(950, 20, 121, 21))
+        self.HeadLabel.setGeometry(QtCore.QRect(850, 20, 121, 41))
         self.HeadLabel.setStyleSheet("font: 14pt \"Cantarell\";")
         self.HeadLabel.setObjectName("HeadLabel")
         self.ABsearchPushButton_1 = QtWidgets.QPushButton(TableDialog)
@@ -94,18 +94,23 @@ class Ui_TableDialog(object):
         self.AZsearchPushButton_14.setGeometry(QtCore.QRect(20, 540, 113, 36))
         self.AZsearchPushButton_14.setStyleSheet("selection-background-color: rgb(255, 7, 32);")
         self.AZsearchPushButton_14.setObjectName("AZsearchPushButton_14")
-        self.label = QtWidgets.QLabel(TableDialog)
-        self.label.setGeometry(QtCore.QRect(960, 50, 131, 21))
-        self.label.setStyleSheet("color: rgb(0, 0, 255);\n"
-"font: 12pt \"Cantarell\";")
-        self.label.setText("")
-        self.label.setObjectName("label")
         self.ALLsearchPushButton_16 = QtWidgets.QPushButton(TableDialog)
         self.ALLsearchPushButton_16.setGeometry(QtCore.QRect(20, 730, 101, 36))
         self.ALLsearchPushButton_16.setStyleSheet("selection-background-color: rgb(255, 7, 32);\n"
 "background-color: rgb(255, 100, 10);\n"
 "font: 8pt \"Cantarell\";")
         self.ALLsearchPushButton_16.setObjectName("ALLsearchPushButton_16")
+        self.cancelPushButton = QtWidgets.QPushButton(TableDialog)
+        self.cancelPushButton.setGeometry(QtCore.QRect(940, 130, 151, 41))
+        self.cancelPushButton.setStyleSheet("border-radius:20px;\n"
+"font: 12pt \"Cantarell\";\n"
+"background-color: red;")
+        self.cancelPushButton.setObjectName("cancelPushButton")
+        self.labelUser = QtWidgets.QLabel(TableDialog)
+        self.labelUser.setGeometry(QtCore.QRect(980, 30, 171, 21))
+        self.labelUser.setStyleSheet("font: 12pt \"Cantarell\";\n"
+"color: rgb(18, 10, 255);")
+        self.labelUser.setObjectName("labelUser")
 
         self.retranslateUi(TableDialog)
         QtCore.QMetaObject.connectSlotsByName(TableDialog)
@@ -113,7 +118,7 @@ class Ui_TableDialog(object):
     def retranslateUi(self, TableDialog):
         _translate = QtCore.QCoreApplication.translate
         TableDialog.setWindowTitle(_translate("TableDialog", "Dialog"))
-        self.HeadLabel.setText(_translate("TableDialog", "Зашли как"))
+        self.HeadLabel.setText(_translate("TableDialog", "Зашли как:"))
         self.ABsearchPushButton_1.setText(_translate("TableDialog", "АБ"))
         item = self.tableWidget.horizontalHeaderItem(0)
         item.setText(_translate("TableDialog", "Фамилия"))
@@ -139,6 +144,8 @@ class Ui_TableDialog(object):
         self.IEsearchPushButton_12.setText(_translate("TableDialog", "ЪЫЬЭ"))
         self.AZsearchPushButton_14.setText(_translate("TableDialog", "A-Z"))
         self.ALLsearchPushButton_16.setText(_translate("TableDialog", "Все контакты"))
+        self.cancelPushButton.setText(_translate("TableDialog", "назад"))
+        self.labelUser.setText(_translate("TableDialog", "User"))
 
 
 if __name__ == "__main__":

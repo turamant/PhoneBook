@@ -1,19 +1,27 @@
 import sys
 
+
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QDialog, QApplication, QWidget, QTableWidgetItem, QMessageBox
 
-from FullMyPhoneBook.tableview import Ui_TableDialog
+from tableview import Ui_TableDialog
 
-from FullMyPhoneBook.tableview2 import Ui_TableDialog2
-from FullMyPhoneBook.welcomescreen import Ui_Dialog
-from FullMyPhoneBook.signup import Ui_SignUpDialog
-from FullMyPhoneBook.fillprofile import Ui_fillProfileDialog
-from FullMyPhoneBook.recoveryPassword import Ui_RecoveryPasswordDialog
-from FullMyPhoneBook.renewPassword import Ui_RenewPasswordDialog
-from FullMyPhoneBook.insertnewrecord import Ui_InsertDialog
+from tableview2 import Ui_TableDialog2
+from welcomescreen import Ui_Dialog
+from signup import Ui_SignUpDialog
+from fillprofile import Ui_fillProfileDialog
+from recoveryPassword import Ui_RecoveryPasswordDialog
+from renewPassword import Ui_RenewPasswordDialog
+from insertnewrecord import Ui_InsertDialog
+from birthdayonweek import Ui_BirthDayTableDialog
 
 import sqlite3
+
+saveuser = ""
+savepassword = ""
+
+
+
 
 class MyFormUser(QDialog):
     def __init__(self):
@@ -21,6 +29,8 @@ class MyFormUser(QDialog):
         self.ui = Ui_TableDialog()
         self.ui.setupUi(self)
 
+
+        self.ui.labelUser.setText(saveuser)
         #self.ui.tableWidget.setItem(1, 1, QTableWidgetItem(4))
         self.ui.tableWidget.setColumnWidth(0, 200)
         self.ui.tableWidget.setColumnWidth(1, 200)
@@ -44,12 +54,34 @@ class MyFormUser(QDialog):
         self.ui.AZsearchPushButton_14.clicked.connect(self.SearchRows_14)
         self.ui.ALLsearchPushButton_16.clicked.connect(self.load_data)
 
+        self.ui.cancelPushButton.clicked.connect(self.gotoWelcome)
+
         self.load_data()
 
 
 
+
+    def gotoWelcome(self):
+        global saveuser, savepassword
+        welcome = WelcomeScreen()
+        widget.addWidget(welcome)
+        widget.setCurrentIndex(widget.currentIndex() + 1)
+        welcome.ui.nameuserLineEdit.setText(saveuser)
+        welcome.ui.passwordLineEdit.setText(savepassword)
+        print("gotowelcome^ ", saveuser, savepassword)
+
+    def dispAmountDoble(self):
+        """
+        Показать / спрятать пароль (password)
+        """
+        print("Мы тут disDouble")
+        welcome.ui.passwordLineEdit.setEchoMode(QtWidgets.QLineEdit.Normal)
+        if welcome.ui.echoPasswordCheckBox.isChecked() == True:
+            welcome.ui.passwordLineEdit.setEchoMode(QtWidgets.QLineEdit.Password)
+            print("Wea are here disDouble")
+
     def load_data(self):
-        sqlStatement = f"SELECT * from phonebook"
+        sqlStatement = f"SELECT name, nomer, year, month, day from phonebook ORDER By name"
         conn = sqlite3.connect("ph_book1.db")
         cur = conn.cursor()
         cur.execute(sqlStatement)
@@ -190,6 +222,7 @@ class InheretensFormTableAdmin(MyFormUser):
         self.ui.AZsearchPushButton_14.clicked.connect(self.SearchRows_14)
         self.ui.ALLsearchPushButton_16.clicked.connect(self.load_data)
 
+        self.ui.cancelPushButton.clicked.connect(self.gotoWelcome)
 
         self.ui.addPushButton.clicked.connect(self.insertNewRecord)
         self.ui.updatePushButton.clicked.connect(self.updateRecord)
@@ -349,20 +382,36 @@ class WelcomeScreen(QDialog):
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
 
-        self.ui.cancelPushButton.clicked.connect(self.gotoCancel)
+        self.ui.cancelPushButton.clicked.connect(self.gotoExit)
         self.ui.signupPushButton.clicked.connect(self.gotoCreate)
         self.ui.passwordLineEdit.setEchoMode(QtWidgets.QLineEdit.Password)
         self.ui.loginPushButton.clicked.connect(self.loginFunction)
+
         self.ui.echoPasswordCheckBox.stateChanged.connect(self.dispAmount)
-        self.ui.saveMeCheckBox.stateChanged.connect(self.saveMe)
+
+
+        self.ui.saveMeCheckBox.clicked.connect(self.saveMe)
+
         self.ui.forgotPasswordPushButton.clicked.connect(self.gotoRecoveryPassword)
         self.ui.changePasswordPushButton.clicked.connect(self.gotoChangePassword)
+        self.ui.birthDayPushButtn.clicked.connect(self.gotoBirthDayOnWeek)
+
+
+        #Если стоит галка сохранить, то должны запуститься эти две строки
+        #if self.ui..... self.ui.saveMeCheckBox.stateChanged.connect(self.saveMe)
+        #self.ui.nameuserLineEdit.setText("")
+        #self.ui.passwordLineEdit.setText("")
+        #self.saveuser = ""
+        #self.savepassword = ""
 
         self.message = QMessageBox()
         self.message.setStyleSheet("background-color: yellow;")
         self.message.setText("Ошибка авторизации!")
 
     def saveMe(self):
+        pass
+
+    def saveMe_reserv(self):
         """
         сохранить пользователя с паролем в БД , для автоматического входа
         """
@@ -388,19 +437,19 @@ class WelcomeScreen(QDialog):
             cur.close()
             conn.close()
 
-        print("Отжата")
-        if self.ui.echoPasswordCheckBox.isChecked() == True:
-            print("Нажата")
-
     def dispAmount(self):
         """
         Показать / спрятать пароль (password)
         """
+        print("Мы тут")
         self.ui.passwordLineEdit.setEchoMode(QtWidgets.QLineEdit.Password)
         if self.ui.echoPasswordCheckBox.isChecked() == True:
             self.ui.passwordLineEdit.setEchoMode(QtWidgets.QLineEdit.Normal)
+            print("Wea are here")
+
 
     def loginFunction(self):
+        global saveuser, savepassword
         user = self.ui.nameuserLineEdit.text()
         password = self.ui.passwordLineEdit.text()
         #query = 'SELECT password FROM login_info WHERE username =\'' + user + "\'"
@@ -424,10 +473,18 @@ class WelcomeScreen(QDialog):
                     self.message.show()
                 elif result_pass != [] and result_pass[0] == password:
                     print("Successfull logged it!")
+
                     if user == 'admin':  #'admin@admin.com':
+                        saveuser = user
+                        savepassword = password
                         mytable = InheretensFormTableAdmin()
+
                     else:
+                        saveuser = user
+                        savepassword = password
                         mytable = MyFormUser()
+                        print("а это было", saveuser, savepassword)
+
                     widget.addWidget(mytable)
                     widget.setCurrentIndex(widget.currentIndex() + 1)
                 else:
@@ -440,6 +497,11 @@ class WelcomeScreen(QDialog):
             finally:
                 cur.close()
                 conn.close()
+
+    def gotoBirthDayOnWeek(self):
+        birthday = BirthDayOnWeek()
+        widget.addWidget(birthday)
+        widget.setCurrentIndex(widget.currentIndex() + 1)
 
     def gotoWelcome(self):
         welcome = WelcomeScreen()
@@ -462,7 +524,7 @@ class WelcomeScreen(QDialog):
         widget.addWidget(create)
         widget.setCurrentIndex(widget.currentIndex() + 1)
 
-    def gotoCancel(self):
+    def gotoExit(self):
         sys.exit(app.exec_())
 
 class ChangePassword(QDialog):
@@ -533,6 +595,30 @@ class RecoveryPassword(QDialog):
         self.message.setStyleSheet("background-color: red;")
         self.message.setText("Ошибка регистрации!")
 
+    def send_mail(self, parol):
+        import smtplib
+        from email.mime.text import MIMEText
+        from email.mime.multipart import MIMEMultipart
+
+        login = "viktoraskvart@yandex.ru"
+        password = ".........."
+        url = "smtp.yandex.ru"
+        toaddr = "viktoraskvart@yandex.ru"
+
+        msg = MIMEMultipart()
+        msg['Subject'] = "Ваш забытый пароль"
+        msg['From'] = "viktoraskvart@yandex.ru"
+        body = f"Ваш забытый пароль: {parol}"
+        msg.attach(MIMEText(body, 'plain'))
+        try:
+            server = smtplib.SMTP_SSL(url, 465)
+        except TimeoutError:
+            print("Нет связи с сервером")
+        server.login(login, password)
+        server.sendmail(login, toaddr, msg.as_string())
+        server.quit()
+
+
     def gotoCansel(self):
         welcome = WelcomeScreen()
         widget.addWidget(welcome)
@@ -563,9 +649,9 @@ class RecoveryPassword(QDialog):
             elif row != []:
                 print("Отправить пароль на почту!")
                 print(f"Был пароль {row[1]} ")
-                query_update = 'UPDATE users set password="89999" WHERE email =\'' + user + "\'"
-                cur.execute(query_update)
-                conn.commit()
+                parol = {row[1]}
+                self.send_mail(parol)
+
                 self.message.setStyleSheet("background-color: green;")
                 self.message.setText("Пароль изменен!")
                 self.message.setInformativeText(f"Вы успешно изменили пароль с ником - {user}")
@@ -712,6 +798,60 @@ class InsertNewRecord(QDialog):
             cur.close()
             conn.close()
 
+class BirthDayOnWeek(QDialog):
+    def __init__(self):
+        super().__init__()
+        self.ui = Ui_BirthDayTableDialog()
+        self.ui.setupUi(self)
+        self.ui.HeadLabel.text()
+        self.load_data_birthday()
+        self.ui.cancelPushButton.clicked.connect(MyFormUser.gotoWelcome)
+
+
+    def data_birthday_on_week(self):
+        from datetime import datetime
+        current_datetime = datetime.now()
+        #year = current_datetime.year
+        month = current_datetime.month
+        day = current_datetime.day
+        #if day + 7 > 31:
+        #    plusweek_day = 31
+        #else:
+        #    plusweek_day = day + 7
+
+        return month, day
+
+    def load_data_birthday(self):
+        month, day = self.data_birthday_on_week()
+        print(month, day)
+        yeap = 31
+
+
+        sqlStatement = f"SELECT name, nomer, year, month, day from phonebook WHERE " \
+                       f"month={month} and day BETWEEN {day} and {yeap} ORDER BY day"
+
+
+        conn = sqlite3.connect("ph_book1.db")
+        cur = conn.cursor()
+        cur.execute(sqlStatement)
+        rows = cur.fetchall()
+
+        row = 0
+        self.ui.tableWidget.setRowCount(len(rows))
+        print(rows)
+
+        for person in rows:
+            print(person)
+            self.ui.tableWidget.setItem(row, 0, QtWidgets.QTableWidgetItem(person[0]))
+            self.ui.tableWidget.setItem(row, 1, QtWidgets.QTableWidgetItem(person[1]))
+            self.ui.tableWidget.setItem(row, 2, QtWidgets.QTableWidgetItem(person[2]))
+            self.ui.tableWidget.setItem(row, 3, QtWidgets.QTableWidgetItem(person[3]))
+            self.ui.tableWidget.setItem(row, 4, QtWidgets.QTableWidgetItem(person[4]))
+            row += 1
+
+
+        cur.close()
+        conn.close()
 
 
 if __name__=='__main__':

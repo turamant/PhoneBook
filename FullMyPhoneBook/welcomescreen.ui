@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1176</width>
-    <height>797</height>
+    <width>1178</width>
+    <height>798</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -116,7 +116,7 @@ font: 18pt &quot;Cantarell&quot;;
 background-color: red;</string>
     </property>
     <property name="text">
-     <string>Отмена</string>
+     <string>Выход</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="nameuserLineEdit">
@@ -216,6 +216,23 @@ border:0px;</string>
     </property>
     <property name="text">
      <string>Сменить пароль</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="birthDayPushButtn">
+    <property name="geometry">
+     <rect>
+      <x>82</x>
+      <y>640</y>
+      <width>281</width>
+      <height>36</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 80, 21);
+font: 10pt &quot;Cantarell&quot;;</string>
+    </property>
+    <property name="text">
+     <string>Дни рождения в этом месяце</string>
     </property>
    </widget>
   </widget>
