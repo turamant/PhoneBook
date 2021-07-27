@@ -20,9 +20,6 @@ import sqlite3
 saveuser = ""
 savepassword = ""
 
-
-
-
 class MyFormUser(QDialog):
     def __init__(self):
         super().__init__()
@@ -70,15 +67,6 @@ class MyFormUser(QDialog):
         welcome.ui.passwordLineEdit.setText(savepassword)
         print("gotowelcome^ ", saveuser, savepassword)
 
-    def dispAmountDoble(self):
-        """
-        Показать / спрятать пароль (password)
-        """
-        print("Мы тут disDouble")
-        welcome.ui.passwordLineEdit.setEchoMode(QtWidgets.QLineEdit.Normal)
-        if welcome.ui.echoPasswordCheckBox.isChecked() == True:
-            welcome.ui.passwordLineEdit.setEchoMode(QtWidgets.QLineEdit.Password)
-            print("Wea are here disDouble")
 
     def load_data(self):
         sqlStatement = f"SELECT name, nomer, year, month, day from phonebook ORDER By name"

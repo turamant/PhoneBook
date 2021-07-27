@@ -4,7 +4,7 @@ import psycopg2
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QApplication, QWidget, QTableView
 
-from FullMyPhoneBook.gui_autoshop import Ui_MyWidget
+from FullMyPhoneBook_SQL.gui_autoshop import Ui_MyWidget
 
 
 
