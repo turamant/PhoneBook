@@ -10536,6 +10536,23 @@ background-color: red;</string>
     <string>назад</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="userPushButton">
+   <property name="geometry">
+    <rect>
+     <x>922</x>
+     <y>240</y>
+     <width>211</width>
+     <height>36</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 19, 2);
+background-color: rgb(6, 214, 255);</string>
+   </property>
+   <property name="text">
+    <string>Все пользователи</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>
