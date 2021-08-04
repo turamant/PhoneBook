@@ -1,14 +1,13 @@
-import os
+
 import sys
 
 import MySQLdb
-import psycopg2
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QDialog, QApplication,  QMessageBox
 
 from Ui.tableview import Ui_TableDialog
-
 from Ui.tableview2user import Ui_TableDialog2
+
 from Ui.welcomescreen import Ui_Dialog
 from Ui.signup import Ui_SignUpDialog
 from Ui.recoveryPassword import Ui_RecoveryPasswordDialog
@@ -17,8 +16,6 @@ from Ui.birthday import Ui_BirthDayTableDialog
 from Ui.alluser import Ui_AllUserTableDialog
 from Ui.helpscreen import Ui_HelpScreenDialog
 
-import sqlite3
-
 saveuser = ""
 savepassword = ""
 
@@ -26,7 +23,7 @@ class DataBase:
     host = "localhost"
     user = "user1"
     passwd = "password1"
-    db = "phonebook"
+    db = "new"           #"phonebook"
 
     def __init__(self):
         self.conn = MySQLdb.connect(self.host,
@@ -41,34 +38,40 @@ class DataBase:
         try:
             self.cur.execute(query)
             self.conn.commit()
+            print("Изменения подтверждаю!")
         except Exception as ex:
+            print("ОШИБКА insert !!!", ex)
             self.conn.rollback()
 
     def update(self, query):
         try:
             self.cur.execute(query)
             self.conn.commit()
+            print("Изменения подтверждаю!")
         except Exception as ex:
+            print("ОШИБКА update !!!", ex)
             self.conn.rollback()
 
     def delete(self, query):
         try:
             self.cur.execute(query)
             self.conn.commit()
+            print("Изменения подтверждаю!")
         except Exception as ex:
+            print("ОШИБКА delete !!!", ex)
             self.conn.rollback()
 
     def read(self, query):
         try:
             self.cur.execute(query)
         except Exception as ex:
-            print("Ошибка чтения данных")
+            print("Ошибка чтения данных", ex)
 
     def search(self, query):
         try:
             self.cur.execute(query)
         except Exception as ex:
-            print("Ощибка поиска")
+            print("Ошибка поиска", ex)
 
     def __del__(self):
         self.conn.close()
@@ -162,7 +165,7 @@ class BaseForm(QDialog):
         Слот-метод , загружает все записи из Таблицы
         :return:
         """
-        sql = f"SELECT name, nomer, birthday from phonebook ORDER By name"
+        sql = f"SELECT id, name, nomer, birthday from phonebook ORDER By name"
         self.SearchRows(sql)
 
     def sqlBase(self, a, b):
@@ -172,11 +175,11 @@ class BaseForm(QDialog):
         :param b: конечная точка поиска
         :return: sql
         """
-        sql = f"SELECT name, nomer, birthday FROM phonebook WHERE name >=" \
+        sql = f"SELECT id, name, nomer, birthday FROM phonebook WHERE name >=" \
               f" '{a}' AND name <= '{b}'  ORDER BY name ASC"
         return sql
 
-    def SearchRows(self, sqlStatement=f"SELECT name, nomer, birthday from phonebook ORDER By birthday"):
+    def SearchRows(self, sqlStatement=f"SELECT id, name, nomer, birthday from phonebook ORDER By birthday"):
         """
         Поиск записей по SQL запросу.
         По умолчанию загружает все записи из Таблицы
@@ -188,10 +191,10 @@ class BaseForm(QDialog):
         row = 0
         self.ui.tableWidget.setRowCount(len(rows))
         for person in rows:
-            print(" .", person)
-            self.ui.tableWidget.setItem(row, 0, QtWidgets.QTableWidgetItem(person[0]))
+            self.ui.tableWidget.setItem(row, 0, QtWidgets.QTableWidgetItem(str(person[0])))
             self.ui.tableWidget.setItem(row, 1, QtWidgets.QTableWidgetItem(person[1]))
-            self.ui.tableWidget.setItem(row, 2, QtWidgets.QTableWidgetItem(str(person[2])))
+            self.ui.tableWidget.setItem(row, 2, QtWidgets.QTableWidgetItem(person[2]))
+            self.ui.tableWidget.setItem(row, 3, QtWidgets.QTableWidgetItem(str(person[3])))
             row += 1
 
     def gotoWelcome(self):
@@ -243,9 +246,10 @@ class MyFormUser(BaseForm):
         self.ui.cancelPushButton.clicked.connect(self.gotoWelcome)
 
         # Ширина колонок таблицы
-        self.ui.tableWidget.setColumnWidth(0, 200)
+        self.ui.tableWidget.setColumnWidth(0, 100)
         self.ui.tableWidget.setColumnWidth(1, 200)
-        self.ui.tableWidget.setColumnWidth(2, 300)
+        self.ui.tableWidget.setColumnWidth(2, 200)
+        self.ui.tableWidget.setColumnWidth(3, 300)
         self.ui.tableWidget.setSortingEnabled(True)
 
         self.SearchRows()
@@ -356,14 +360,15 @@ class InheretensFormTableAdmin(MyFormUser):
         self.ui.updatePushButton.clicked.connect(self.updateRecord)
         self.ui.deletePushButton.clicked.connect(self.deleteRecord)
 
-        self.list_line_edit = [self.ui.nameLineEdit,
+        self.list_line_edit = [self.ui.idLineEdit_1,
+                               self.ui.nameLineEdit,
                                self.ui.nomerLineEdit,
                                self.ui.dayLineEdit,
                                ]
-
-        self.ui.tableWidget.setColumnWidth(0, 200)
+        self.ui.tableWidget.setColumnWidth(0, 100)
         self.ui.tableWidget.setColumnWidth(1, 200)
-        self.ui.tableWidget.setColumnWidth(2, 300)
+        self.ui.tableWidget.setColumnWidth(2, 200)
+        self.ui.tableWidget.setColumnWidth(3, 300)
         self.ui.tableWidget.setSortingEnabled(True)
 
         self.SearchRows()
@@ -385,7 +390,7 @@ class InheretensFormTableAdmin(MyFormUser):
         Слот-метод, очищает поля и выводит все записи
         :return:
         """
-        sql = f"SELECT name, nomer, birthday from phonebook ORDER By name"
+        sql = f"SELECT id, name, nomer, birthday from phonebook ORDER By name"
         self.SearchRows(sql)
         self.editLineClear()  # обнуляет 4 поля LineEdit
 
@@ -397,7 +402,7 @@ class InheretensFormTableAdmin(MyFormUser):
         :param b: конечная точка поиска
         :return: sql
         """
-        sql = f"SELECT name, nomer, birthday FROM phonebook WHERE name >=" \
+        sql = f"SELECT id, name, nomer, birthday FROM phonebook WHERE name >=" \
               f" '{a}' AND name <= '{b}'  ORDER BY name ASC"
         self.editLineClear()  # обнуляет 4 поля LineEdit
         return sql
@@ -409,19 +414,26 @@ class InheretensFormTableAdmin(MyFormUser):
         :param col: номер столбца
         :return:
         """
-        self.ui.nameLineEdit.setText(self.ui.tableWidget.item(row, 0).text().strip())
-        self.ui.nomerLineEdit.setText(self.ui.tableWidget.item(row, 1).text().strip())
-        self.ui.dayLineEdit.setText(self.ui.tableWidget.item(row, 2).text().strip())
+        self.ui.idLineEdit_1.setText(self.ui.tableWidget.item(row, 0).text().strip())
+        self.ui.nameLineEdit.setText(self.ui.tableWidget.item(row, 1).text().strip())
+        self.ui.nomerLineEdit.setText(self.ui.tableWidget.item(row, 2).text().strip())
+        self.ui.dayLineEdit.setText(self.ui.tableWidget.item(row, 3).text().strip())
 
     def insertNewRecord(self):
         """
         Вставка новой записи в Таблицу
         :return:
         """
+        id = self.ui.idLineEdit_1.text()
         name = self.ui.nameLineEdit.text().capitalize()
         nomer = self.ui.nomerLineEdit.text()
         birthday = self.ui.dayLineEdit.text()
+        #query = f"INSERT INTO phonebook (id, name, nomer, birthday) VALUES ('{id}','{name}', '{nomer}', '{birthday}')" \
+        #        f" ON DUPLICATE KEY UPDATE  name='{name}', nomer='{nomer}',birthday='{birthday}'"
         query = f"INSERT INTO phonebook (name, nomer, birthday) VALUES ('{name}', '{nomer}', '{birthday}')"
+        #query = f"INSERT INTO phonebook (name, nomer, birthday) VALUES ('{name}', '{nomer}', '{birthday}')" \
+        #        f" ON DUPLICATE KEY UPDATE  name='{name}', nomer='{nomer}',birthday='{birthday}'"
+
         self.db.insert(query)
         self.editLineClear()
         print("Добавлена успешно!")
@@ -432,31 +444,35 @@ class InheretensFormTableAdmin(MyFormUser):
         Изменение записи в Таблице
         :return:
         """
-        name = self.ui.nameLineEdit.text().capitalize()
+        id = self.ui.idLineEdit_1.text()
+        name = self.ui.nameLineEdit.text()
         nomer = self.ui.nomerLineEdit.text()
         birthday = self.ui.dayLineEdit.text()
-        query = f"SELECT * from phonebook where name='{name}'"
-        query_update = f"UPDATE phonebook SET nomer='{nomer}', birthday='{birthday}'" \
-                       f" WHERE name='{name}'"
+        query = f"SELECT * FROM phonebook WHERE id='{id}'"
+        query_update = f"UPDATE phonebook SET name='{name}', nomer='{nomer}', birthday='{birthday}' " \
+                       f"WHERE id='{id}'"
         self.db.read(query)
         row = self.db.cur.fetchone()
         if row == None:
             print("Нет такой фамилии в таблице")
         else:
             print("Есть такая фамилия")
-            name = row[1]
-            print(name)
+            name = row[0]
+            print(name, nomer, birthday)
             self.db.update(query_update)
             self.editLineClear()
             self.SearchRows_All()
             print("Изменения проведены успешно")
 
     def deleteRecord(self):
-        name = self.ui.nameLineEdit.text()
-        query = f"SELECT * FROM phonebook WHERE name='{name}'"
-        query_delete = f"DELETE from phonebook WHERE name='{name}'"
+        id = self.ui.idLineEdit_1.text()
+        #name = self.ui.nameLineEdit.text()
+        query = f"SELECT * FROM phonebook WHERE id='{id}'"
+        query_delete = f"DELETE from phonebook WHERE id='{id}'"
+
         self.db.read(query)
         row = self.db.cur.fetchone()
+        print(".row: ", row)
         if row == None:
             print("Нет такого контакта в таблице")
         else:

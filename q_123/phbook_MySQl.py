@@ -1,8 +1,7 @@
-import os
+
 import sys
 
 import MySQLdb
-import psycopg2
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QDialog, QApplication,  QMessageBox
 
@@ -16,8 +15,6 @@ from Ui.renewPassword import Ui_RenewPasswordDialog
 from Ui.birthday import Ui_BirthDayTableDialog
 from Ui.alluser import Ui_AllUserTableDialog
 from Ui.helpscreen import Ui_HelpScreenDialog
-
-import sqlite3
 
 saveuser = ""
 savepassword = ""

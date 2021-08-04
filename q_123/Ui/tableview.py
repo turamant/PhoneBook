@@ -30,7 +30,7 @@ class Ui_TableDialog(object):
         self.tableWidget = QtWidgets.QTableWidget(TableDialog)
         self.tableWidget.setGeometry(QtCore.QRect(140, 20, 701, 751))
         self.tableWidget.setRowCount(1000)
-        self.tableWidget.setColumnCount(3)
+        self.tableWidget.setColumnCount(4)
         self.tableWidget.setObjectName("tableWidget")
         item = QtWidgets.QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(0, item)
@@ -38,6 +38,8 @@ class Ui_TableDialog(object):
         self.tableWidget.setHorizontalHeaderItem(1, item)
         item = QtWidgets.QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(2, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(3, item)
         self.OPsearchPushButton_7 = QtWidgets.QPushButton(TableDialog)
         self.OPsearchPushButton_7.setGeometry(QtCore.QRect(20, 260, 113, 36))
         self.OPsearchPushButton_7.setStyleSheet("selection-background-color: rgb(255, 7, 32);")
@@ -93,7 +95,7 @@ class Ui_TableDialog(object):
         self.ALLsearchPushButton_16 = QtWidgets.QPushButton(TableDialog)
         self.ALLsearchPushButton_16.setGeometry(QtCore.QRect(20, 730, 101, 36))
         self.ALLsearchPushButton_16.setStyleSheet("selection-background-color: rgb(255, 7, 32);\n"
-"background-color: rgb(255, 100, 10);\n"
+"background-color: rgb(232, 232, 232);\n"
 "font: 8pt \"Cantarell\";")
         self.ALLsearchPushButton_16.setObjectName("ALLsearchPushButton_16")
         self.cancelPushButton = QtWidgets.QPushButton(TableDialog)
@@ -109,7 +111,8 @@ class Ui_TableDialog(object):
         self.labelUser.setObjectName("labelUser")
         self.helpPushButton = QtWidgets.QPushButton(TableDialog)
         self.helpPushButton.setGeometry(QtCore.QRect(1060, 10, 113, 36))
-        self.helpPushButton.setStyleSheet("background-color: rgb(8, 255, 16);")
+        self.helpPushButton.setStyleSheet("\n"
+"background-color: rgb(232, 232, 232);")
         self.helpPushButton.setObjectName("helpPushButton")
 
         self.retranslateUi(TableDialog)
@@ -121,10 +124,12 @@ class Ui_TableDialog(object):
         self.HeadLabel.setText(_translate("TableDialog", "Зашли как:"))
         self.ABsearchPushButton_1.setText(_translate("TableDialog", "АБ"))
         item = self.tableWidget.horizontalHeaderItem(0)
-        item.setText(_translate("TableDialog", "Фамилия"))
+        item.setText(_translate("TableDialog", "id"))
         item = self.tableWidget.horizontalHeaderItem(1)
-        item.setText(_translate("TableDialog", "Телефон"))
+        item.setText(_translate("TableDialog", "Фамилия"))
         item = self.tableWidget.horizontalHeaderItem(2)
+        item.setText(_translate("TableDialog", "Телефон"))
+        item = self.tableWidget.horizontalHeaderItem(3)
         item.setText(_translate("TableDialog", "Дата р."))
         self.OPsearchPushButton_7.setText(_translate("TableDialog", "ОП"))
         self.GZIIsearchPushButton_4.setText(_translate("TableDialog", "ЖЗИЙ"))
